@@ -29,7 +29,7 @@ public class Note : MonoBehaviour
     {
         if (GameController.Instance.GameStarted.Value && !GameController.Instance.GameOver.Value)
         {
-            transform.Translate(Vector2.down * GameController.Instance.noteSpeed * Time.deltaTime);
+            transform.Translate(Vector2.down * (GameController.Instance.noteSpeed * Time.deltaTime));
         }
     }
 

@@ -7,29 +7,33 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public Transform lastSpawnedNote;
+    public static GameController Instance { get; private set; }
+
+    public Note notePrefab;
+    public AudioSource audioSource;
+    public float noteSpeed = 5f;
+    public GameObject noteTriggerPrefab;
+
+    public Transform LastSpawnedNote { get; private set; }
+    private GameObject noteContainer;
     private static float noteHeight;
     private static float noteWidth;
-    public Note notePrefab;
     private Vector3 noteLocalScale;
     private float noteSpawnStartPosX;
-    public float noteSpeed = 5f;
     public const int NotesToSpawn = 20;
     private int prevRandomIndex = -1;
-    public static GameController Instance { get; private set; }
-    public Transform noteContainer;
-    public ReactiveProperty<bool> GameStarted { get; set; }
-    public ReactiveProperty<bool> GameOver { get; set; }
-    public ReactiveProperty<int> Score { get; set; }
     private int lastNoteId = 1;
-    public int LastPlayedNoteId { get; set; } = 0;
-    public AudioSource audioSource;
     private Coroutine playSongSegmentCoroutine;
     private float songSegmentLength = 0.8f;
     private bool lastNote = false;
     private bool lastSpawn = false;
+
     public ReactiveProperty<bool> ShowGameOverScreen { get; set; }
     public bool PlayerWon { get; set; } = false;
+    public int LastPlayedNoteId { get; set; } = 0;
+    public ReactiveProperty<bool> GameStarted { get; set; }
+    public ReactiveProperty<bool> GameOver { get; set; }
+    public ReactiveProperty<int> Score { get; set; }
 
     private void Awake()
     {
@@ -38,6 +42,22 @@ public class GameController : MonoBehaviour
         GameOver = new ReactiveProperty<bool>();
         Score = new ReactiveProperty<int>();
         ShowGameOverScreen = new ReactiveProperty<bool>();
+        noteContainer = new GameObject("NoteContainer");
+
+        var destroyNoteTrigger = Instantiate<GameObject>(noteTriggerPrefab);
+        destroyNoteTrigger.name = "DestroyNoteTrigger";
+        destroyNoteTrigger.AddComponent<DestroyNoteTrigger>();
+        var spawnNoteTrigger = Instantiate<GameObject>(noteTriggerPrefab);
+        spawnNoteTrigger.name = "SpawnNoteTrigger";
+        spawnNoteTrigger.AddComponent<SpawnNotesTrigger>();
+        var outOfScreenTrigger = Instantiate<GameObject>(noteTriggerPrefab);
+        outOfScreenTrigger.name = "OutOfScreenTrigger";
+        outOfScreenTrigger.AddComponent<OutOfScreenTrigger>();
+
+        LastSpawnedNote = new GameObject("LastSpawnedNote").transform;
+        var worldSpawnLocation = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        worldSpawnLocation.y += 1f;
+        LastSpawnedNote.position = worldSpawnLocation;
     }
 
     void Start()
@@ -62,19 +82,16 @@ public class GameController : MonoBehaviour
 
     private void DetectNoteClicks()
     {
-        if (Input.GetMouseButtonDown(0))
+        foreach (var touch in Input.touches)
         {
-            var origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (touch.phase != TouchPhase.Began) continue;
+            var origin = Camera.main.ScreenToWorldPoint(touch.position);
             var hit = Physics2D.Raycast(origin, Vector2.zero);
-            if (hit)
-            {
-                var gameObject = hit.collider.gameObject;
-                if (gameObject.CompareTag("Note"))
-                {
-                    var note = gameObject.GetComponent<Note>();
-                    note.Play();
-                }
-            }
+            if (!hit) continue;
+            var hitGameObject = hit.collider.gameObject;
+            if (!hitGameObject.CompareTag("Note")) continue;
+            var note = hitGameObject.GetComponent<Note>();
+            note.Play();
         }
     }
 
@@ -101,7 +118,7 @@ public class GameController : MonoBehaviour
     {
         if (lastSpawn) return;
 
-        var noteSpawnStartPosY = lastSpawnedNote.position.y + noteHeight;
+        var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
         Note note = null;
         var timeTillEnd = audioSource.clip.length - audioSource.time;
         int notesToSpawn = NotesToSpawn;
@@ -126,7 +143,7 @@ public class GameController : MonoBehaviour
                 }
             }
             noteSpawnStartPosY += noteHeight;
-            if (i == NotesToSpawn - 1) lastSpawnedNote = note.transform;
+            if (i == NotesToSpawn - 1) LastSpawnedNote = note.transform;
         }
     }
 
