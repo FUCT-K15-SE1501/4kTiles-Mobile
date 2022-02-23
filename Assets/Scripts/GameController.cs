@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
     {
         var touched = (from touch in Input.touches where touch.phase == TouchPhase.Began select touch.position).ToList();
 
-        if (Input.GetMouseButtonDown(0))
+        if (!touched.Any() && Input.GetMouseButtonDown(0))
         {
             touched.Add(Input.mousePosition);
         }
@@ -142,7 +142,7 @@ public class GameController : MonoBehaviour
                 note = Instantiate(notePrefab, noteContainer.transform);
                 note.transform.localScale = noteLocalScale;
                 note.transform.position = new Vector2(noteSpawnStartPosX + noteWidth * j, noteSpawnStartPosY);
-                note.Visible = (j == randomIndex);
+                note.Visible = Random.Range(0, 2) == 1;
             }
             noteSpawnStartPosY += noteHeight;
             if (i == NotesToSpawn - 1) LastSpawnedNote = note.transform;
