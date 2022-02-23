@@ -23,7 +23,6 @@ public class GameController : MonoBehaviour
     private float noteSpawnStartPosX;
     public const int NotesToSpawn = 20;
     private int prevRandomIndex = -1;
-    private int lastNoteId = 1;
     private Coroutine playSongSegmentCoroutine;
     private float songSegmentLength = 0.8f;
     private bool lastNote = false;
@@ -144,11 +143,6 @@ public class GameController : MonoBehaviour
                 note.transform.localScale = noteLocalScale;
                 note.transform.position = new Vector2(noteSpawnStartPosX + noteWidth * j, noteSpawnStartPosY);
                 note.Visible = (j == randomIndex);
-                if (note.Visible)
-                {
-                    note.Id = lastNoteId;
-                    lastNoteId++;
-                }
             }
             noteSpawnStartPosY += noteHeight;
             if (i == NotesToSpawn - 1) LastSpawnedNote = note.transform;

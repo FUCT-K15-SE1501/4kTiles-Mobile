@@ -18,7 +18,6 @@ public class Note : MonoBehaviour
     }
 
     public bool Played { get; set; }
-    public int Id { get; set; }
 
     private void Awake()
     {
