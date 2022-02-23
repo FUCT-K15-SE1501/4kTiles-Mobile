@@ -35,24 +35,19 @@ public class Note : MonoBehaviour
 
     public void Play()
     {
-        if (GameController.Instance.GameStarted.Value && !GameController.Instance.GameOver.Value)
+        if (!GameController.Instance.GameStarted.Value || GameController.Instance.GameOver.Value) return;
+        if (Visible)
         {
-            if (Visible)
-            {
-                if (!Played && GameController.Instance.LastPlayedNoteId == Id - 1)
-                {
-                    Played = true;
-                    GameController.Instance.LastPlayedNoteId = Id;
-                    GameController.Instance.Score.Value++;
-                    GameController.Instance.PlaySomeOfSong();
-                    animator.Play("Played");
-                }
-            }
-            else
-            {
-                StartCoroutine(GameController.Instance.EndGame());
-                animator.Play("Missed");
-            }
+            if (Played) return;
+            Played = true;
+            GameController.Instance.Score.Value++;
+            GameController.Instance.PlaySomeOfSong();
+            animator.Play("Played");
+        }
+        else
+        {
+            StartCoroutine(GameController.Instance.EndGame());
+            animator.Play("Missed");
         }
     }
 

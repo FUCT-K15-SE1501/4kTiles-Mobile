@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,6 @@ public class GameController : MonoBehaviour
 
     public ReactiveProperty<bool> ShowGameOverScreen { get; set; }
     public bool PlayerWon { get; set; } = false;
-    public int LastPlayedNoteId { get; set; } = 0;
     public ReactiveProperty<bool> GameStarted { get; set; }
     public ReactiveProperty<bool> GameOver { get; set; }
     public ReactiveProperty<int> Score { get; set; }
@@ -84,10 +84,16 @@ public class GameController : MonoBehaviour
 
     private void DetectNoteClicks()
     {
-        foreach (var touch in Input.touches)
+        var touched = (from touch in Input.touches where touch.phase == TouchPhase.Began select touch.position).ToList();
+
+        if (Input.GetMouseButtonDown(0))
         {
-            if (touch.phase != TouchPhase.Began) continue;
-            var origin = Camera.main.ScreenToWorldPoint(touch.position);
+            touched.Add(Input.mousePosition);
+        }
+
+        foreach (var touch in touched)
+        {
+            var origin = Camera.main.ScreenToWorldPoint(touch);
             var hit = Physics2D.Raycast(origin, Vector2.zero);
             if (!hit) continue;
             var hitGameObject = hit.collider.gameObject;
