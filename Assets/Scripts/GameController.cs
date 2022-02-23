@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
 
     public Note notePrefab;
-    public AudioSource audioSource;
     public float noteSpeed = 5f;
     public GameObject noteTriggerPrefab;
 
@@ -23,7 +22,6 @@ public class GameController : MonoBehaviour
     private float noteSpawnStartPosX;
     public const int NotesToSpawn = 20;
     private int prevRandomIndex = -1;
-    private Coroutine playSongSegmentCoroutine;
     private float songSegmentLength = 0.8f;
     private bool lastNote = false;
     private bool lastSpawn = false;
@@ -81,6 +79,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // TODO: Check if this is the last note
     private void DetectNoteClicks()
     {
         var touched = (from touch in Input.touches where touch.phase == TouchPhase.Began select touch.position).ToList();
@@ -121,23 +120,18 @@ public class GameController : MonoBehaviour
         noteSpawnStartPosX = leftmostPointPivot;
     }
 
+    // TODO: Check if this is the last spawn of notes and assign to lastSpawn
     public void SpawnNotes()
     {
         if (lastSpawn) return;
 
         var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
         Note note = null;
-        var timeTillEnd = audioSource.clip.length - audioSource.time;
-        int notesToSpawn = NotesToSpawn;
-        if (timeTillEnd < NotesToSpawn)
-        {
-            notesToSpawn = Mathf.CeilToInt(timeTillEnd);
-            lastSpawn = true;
-        }
-        for (int i = 0; i < notesToSpawn; i++)
+        var notesToSpawn = NotesToSpawn;
+        for (var i = 0; i < notesToSpawn; i++)
         {
             var randomIndex = GetRandomIndex();
-            for (int j = 0; j < 4; j++)
+            for (var j = 0; j < 4; j++)
             {
                 note = Instantiate(notePrefab, noteContainer.transform);
                 note.transform.localScale = noteLocalScale;
@@ -155,31 +149,6 @@ public class GameController : MonoBehaviour
         while (randomIndex == prevRandomIndex) randomIndex = Random.Range(0, 4);
         prevRandomIndex = randomIndex;
         return randomIndex;
-    }
-
-    public void PlaySomeOfSong()
-    {
-        if (!audioSource.isPlaying && !lastNote)
-        {
-            audioSource.Play();
-        }
-        if (audioSource.clip.length - audioSource.time <= songSegmentLength)
-        {
-            lastNote = true;
-        }
-        if (playSongSegmentCoroutine != null) StopCoroutine(playSongSegmentCoroutine);
-        playSongSegmentCoroutine = StartCoroutine(PlaySomeOfSongCoroutine());
-    }
-
-    private IEnumerator PlaySomeOfSongCoroutine()
-    {
-        yield return new WaitForSeconds(songSegmentLength);
-        audioSource.Pause();
-        if (lastNote)
-        {
-            PlayerWon = true;
-            StartCoroutine(EndGame());
-        }
     }
 
     public void PlayAgain()

@@ -40,8 +40,8 @@ public class Note : MonoBehaviour
             if (Played) return;
             Played = true;
             GameController.Instance.Score.Value++;
-            GameController.Instance.PlaySomeOfSong();
             animator.Play("Played");
+            // TODO: Audio Source
         }
         else
         {
