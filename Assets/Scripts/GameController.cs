@@ -56,7 +56,9 @@ public class GameController : MonoBehaviour
 
         LastSpawnedNote = new GameObject("LastSpawnedNote").transform;
         var worldSpawnLocation = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        worldSpawnLocation.x = 0;
         worldSpawnLocation.y += 1f;
+        worldSpawnLocation.z = 0;
         LastSpawnedNote.position = worldSpawnLocation;
     }
 
