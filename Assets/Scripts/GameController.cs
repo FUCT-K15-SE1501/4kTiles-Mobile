@@ -21,8 +21,6 @@ public class GameController : MonoBehaviour
     private Vector3 noteLocalScale;
     private float noteSpawnStartPosX;
     public const int NotesToSpawn = 20;
-    private int prevRandomIndex = -1;
-    private float songSegmentLength = 0.8f;
     private bool lastNote = false;
     private bool lastSpawn = false;
 
@@ -82,20 +80,34 @@ public class GameController : MonoBehaviour
     // TODO: Check if this is the last note
     private void DetectNoteClicks()
     {
-        var touched = (from touch in Input.touches where touch.phase == TouchPhase.Began select touch.position).ToList();
-
-        if (!touched.Any() && Input.GetMouseButtonDown(0))
+        // var touched = new List<Vector2>();
+        // foreach (var touch in Input.touches)
+        // {
+        //     if (touch.phase == TouchPhase.Began) touched.Add(touch.position);
+        // }
+        //
+        // if (!touched.Any() && Input.GetMouseButtonDown(0))
+        // {
+        //     touched.Add(Input.mousePosition);
+        // }
+        //
+        // foreach (var touch in touched)
+        // {
+        //     var origin = Camera.main.ScreenToWorldPoint(touch);
+        //     var hit = Physics2D.Raycast(origin, Vector2.zero);
+        //     if (!hit) continue;
+        //     var hitGameObject = hit.collider.gameObject;
+        //     if (!hitGameObject.CompareTag("Note")) continue;
+        //     var note = hitGameObject.GetComponent<Note>();
+        //     note.Play();
+        // }
+        if (Input.GetMouseButtonDown(0))
         {
-            touched.Add(Input.mousePosition);
-        }
-
-        foreach (var touch in touched)
-        {
-            var origin = Camera.main.ScreenToWorldPoint(touch);
+            var origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var hit = Physics2D.Raycast(origin, Vector2.zero);
-            if (!hit) continue;
+            if (!hit) return;
             var hitGameObject = hit.collider.gameObject;
-            if (!hitGameObject.CompareTag("Note")) continue;
+            if (!hitGameObject.CompareTag("Note")) return;
             var note = hitGameObject.GetComponent<Note>();
             note.Play();
         }
@@ -130,25 +142,21 @@ public class GameController : MonoBehaviour
         var notesToSpawn = NotesToSpawn;
         for (var i = 0; i < notesToSpawn; i++)
         {
-            var randomIndex = GetRandomIndex();
+            var randomIndex = Random.Range(0, 4);
             for (var j = 0; j < 4; j++)
             {
                 note = Instantiate(notePrefab, noteContainer.transform);
                 note.transform.localScale = noteLocalScale;
                 note.transform.position = new Vector2(noteSpawnStartPosX + noteWidth * j, noteSpawnStartPosY);
-                note.Visible = Random.Range(0, 2) == 1;
+                note.Visible = j == randomIndex;
+                if (note.Visible)
+                {
+                    note.TouchOptional = Random.Range(0, 2) == 1;
+                }
             }
             noteSpawnStartPosY += noteHeight;
             if (i == NotesToSpawn - 1) LastSpawnedNote = note.transform;
         }
-    }
-
-    private int GetRandomIndex()
-    {
-        var randomIndex = Random.Range(0, 4);
-        while (randomIndex == prevRandomIndex) randomIndex = Random.Range(0, 4);
-        prevRandomIndex = randomIndex;
-        return randomIndex;
     }
 
     public void PlayAgain()
