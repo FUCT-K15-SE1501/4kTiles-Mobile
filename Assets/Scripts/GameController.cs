@@ -80,34 +80,24 @@ public class GameController : MonoBehaviour
     // TODO: Check if this is the last note
     private void DetectNoteClicks()
     {
-        // var touched = new List<Vector2>();
-        // foreach (var touch in Input.touches)
-        // {
-        //     if (touch.phase == TouchPhase.Began) touched.Add(touch.position);
-        // }
-        //
-        // if (!touched.Any() && Input.GetMouseButtonDown(0))
-        // {
-        //     touched.Add(Input.mousePosition);
-        // }
-        //
-        // foreach (var touch in touched)
-        // {
-        //     var origin = Camera.main.ScreenToWorldPoint(touch);
-        //     var hit = Physics2D.Raycast(origin, Vector2.zero);
-        //     if (!hit) continue;
-        //     var hitGameObject = hit.collider.gameObject;
-        //     if (!hitGameObject.CompareTag("Note")) continue;
-        //     var note = hitGameObject.GetComponent<Note>();
-        //     note.Play();
-        // }
-        if (Input.GetMouseButtonDown(0))
+        var touched = new List<Vector2>();
+        foreach (var touch in Input.touches)
         {
-            var origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (touch.phase == TouchPhase.Began) touched.Add(touch.position);
+        }
+        
+        if (!touched.Any() && Input.GetMouseButtonDown(0))
+        {
+            touched.Add(Input.mousePosition);
+        }
+        
+        foreach (var touch in touched)
+        {
+            var origin = Camera.main.ScreenToWorldPoint(touch);
             var hit = Physics2D.Raycast(origin, Vector2.zero);
-            if (!hit) return;
+            if (!hit) continue;
             var hitGameObject = hit.collider.gameObject;
-            if (!hitGameObject.CompareTag("Note")) return;
+            if (!hitGameObject.CompareTag("Note")) continue;
             var note = hitGameObject.GetComponent<Note>();
             note.Play();
         }
