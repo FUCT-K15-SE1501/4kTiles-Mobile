@@ -6,7 +6,6 @@ using UnityEngine;
 public class Note : MonoBehaviour
 {
     Animator animator;
-    Rigidbody2D rigidbody;
 
     private bool visible;
     public bool Visible
@@ -36,8 +35,6 @@ public class Note : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
-        rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
     private void Update()
@@ -48,30 +45,37 @@ public class Note : MonoBehaviour
         }
     }
 
-    public void Play()
+    private void Play()
+    {
+        if (Played) return;
+        Played = true;
+        GameController.Instance.Score.Value++;
+        animator.Play("Played");
+        // TODO: Audio Source
+    }
+
+    private void Miss()
+    {
+        StartCoroutine(GameController.Instance.EndGame());
+        animator.Play("Missed");
+    }
+
+    public void PlayTouch(bool isHold)
     {
         if (!GameController.Instance.GameStarted.Value || GameController.Instance.GameOver.Value) return;
-        if (Visible)
+        if (isHold && TouchOptional)
         {
-            if (Played) return;
-            Played = true;
-            GameController.Instance.Score.Value++;
-            animator.Play("Played");
-            // TODO: Audio Source
+            if (Visible) Play();
         }
         else
         {
-            StartCoroutine(GameController.Instance.EndGame());
-            animator.Play("Missed");
+            if (Visible) Play();
+            else Miss();
         }
     }
 
     public void OutOfScreen()
     {
-        if (Visible && !Played && !TouchOptional)
-        {
-            StartCoroutine(GameController.Instance.EndGame());
-            animator.Play("Missed");
-        }
+        if (Visible && !Played && !TouchOptional) Miss();
     }
 }

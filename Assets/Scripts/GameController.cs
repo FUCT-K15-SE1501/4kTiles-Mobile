@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class GameController : MonoBehaviour
     public const int NotesToSpawn = 20;
     private bool lastNote = false;
     private bool lastSpawn = false;
+    private Camera _camera;
 
     public ReactiveProperty<bool> ShowGameOverScreen { get; set; }
     public bool PlayerWon { get; set; } = false;
@@ -38,6 +41,7 @@ public class GameController : MonoBehaviour
         Score = new ReactiveProperty<int>();
         ShowGameOverScreen = new ReactiveProperty<bool>();
         noteContainer = new GameObject("NoteContainer");
+        _camera = Camera.main!;
 
         var destroyNoteTrigger = Instantiate<GameObject>(noteTriggerPrefab);
         destroyNoteTrigger.name = "DestroyNoteTrigger";
@@ -50,7 +54,7 @@ public class GameController : MonoBehaviour
         outOfScreenTrigger.AddComponent<OutOfScreenTrigger>();
 
         LastSpawnedNote = new GameObject("LastSpawnedNote").transform;
-        var worldSpawnLocation = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        var worldSpawnLocation = _camera.ScreenToWorldPoint(Vector3.zero);
         worldSpawnLocation.x = 0;
         worldSpawnLocation.y += 1f;
         worldSpawnLocation.z = 0;
@@ -78,28 +82,53 @@ public class GameController : MonoBehaviour
     }
 
     // TODO: Check if this is the last note
+    private IEnumerator CheckTouch(IEnumerable<Vector2> touched, bool isHold = false)
+    {
+        foreach (var touch in touched)
+        {
+            var origin = _camera.ScreenToWorldPoint(touch);
+            var hit = Physics2D.Raycast(origin, Vector2.zero);
+            if (!hit) continue;
+            var hitGameObject = hit.collider.gameObject;
+            if (!hitGameObject.CompareTag("Note")) continue;
+            var note = hitGameObject.GetComponent<Note>();
+            note.PlayTouch(isHold);
+            yield return null;
+        }
+    }
+
     private void DetectNoteClicks()
     {
         var touched = new List<Vector2>();
+        var hold = new List<Vector2>();
         foreach (var touch in Input.touches)
         {
-            if (touch.phase == TouchPhase.Began) touched.Add(touch.position);
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    touched.Add(touch.position);
+                    break;
+                case TouchPhase.Stationary:
+                    hold.Add(touch.position);
+                    break;
+                default:
+                    break;
+            }
         }
         
         if (!touched.Any() && Input.GetMouseButtonDown(0))
         {
             touched.Add(Input.mousePosition);
         }
-        
-        foreach (var touch in touched)
+
+        if (touched.Any())
         {
-            var origin = Camera.main.ScreenToWorldPoint(touch);
-            var hit = Physics2D.Raycast(origin, Vector2.zero);
-            if (!hit) continue;
-            var hitGameObject = hit.collider.gameObject;
-            if (!hitGameObject.CompareTag("Note")) continue;
-            var note = hitGameObject.GetComponent<Note>();
-            note.Play();
+            StartCoroutine(CheckTouch(touched, false));
+        }
+
+        if (hold.Any())
+        {
+            StartCoroutine(CheckTouch(hold, true));
         }
     }
 
@@ -129,8 +158,7 @@ public class GameController : MonoBehaviour
 
         var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
         Note note = null;
-        var notesToSpawn = NotesToSpawn;
-        for (var i = 0; i < notesToSpawn; i++)
+        for (var i = 0; i < NotesToSpawn; i++)
         {
             var randomIndex = Random.Range(0, 4);
             for (var j = 0; j < 4; j++)
