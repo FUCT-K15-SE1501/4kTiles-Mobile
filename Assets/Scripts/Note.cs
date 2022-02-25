@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    Animator animator;
+    [SerializeField] private Sprite normalNoteSprite;
+    [SerializeField] private Sprite optionalNoteSprite;
+
+    private Animator animator;
+    private new SpriteRenderer renderer;
 
     private bool visible;
     public bool Visible
@@ -14,7 +18,9 @@ public class Note : MonoBehaviour
         set
         {
             visible = value;
-            if (!visible) animator.Play("Invisible");
+            var color = renderer.color;
+            color.a = visible ? 1 : 0;
+            renderer.color = color;
         }
     }
 
@@ -26,7 +32,7 @@ public class Note : MonoBehaviour
         set
         {
             touchOptional = value;
-            if (touchOptional) animator.Play("TouchOptional");
+            renderer.sprite = touchOptional ? optionalNoteSprite : normalNoteSprite;
         }
     }
 
@@ -35,6 +41,7 @@ public class Note : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -50,7 +57,9 @@ public class Note : MonoBehaviour
         if (Played) return;
         Played = true;
         GameController.Instance.Score.Value++;
-        animator.Play("Played");
+        var color = renderer.color;
+        color.a = 0.5f;
+        renderer.color = color;
         // TODO: Audio Source
     }
 
@@ -58,16 +67,17 @@ public class Note : MonoBehaviour
     {
         StartCoroutine(GameController.Instance.EndGame());
         animator.Play("Missed");
+        renderer.color = Color.red;
     }
 
     public void PlayTouch(bool isHold)
     {
         if (!GameController.Instance.GameStarted.Value || GameController.Instance.GameOver.Value) return;
-        if (isHold && TouchOptional)
+        if (TouchOptional)
         {
             if (Visible) Play();
         }
-        else
+        else if (!isHold)
         {
             if (Visible) Play();
             else Miss();

@@ -138,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09168ba5f969f84eb0d293cd127b8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalNoteSprite: {fileID: 21300000, guid: eabae6c6b16747a498c10a8f76ffa9e7, type: 3}
+  optionalNoteSprite: {fileID: 21300000, guid: 67993a710d856594f82b67d3074a2135, type: 3}
 --- !u!61 &4405412620584746749
 BoxCollider2D:
   m_ObjectHideFlags: 0
