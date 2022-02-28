@@ -7,11 +7,11 @@ public class Note : MonoBehaviour
 {
     [SerializeField] private Sprite normalNoteSprite;
     [SerializeField] private Sprite optionalNoteSprite;
-
-    private Animator animator;
+    
     private new SpriteRenderer renderer;
-
     private bool visible;
+    private bool touchOptional = false;
+
     public bool Visible
     {
         get => visible;
@@ -23,9 +23,6 @@ public class Note : MonoBehaviour
             renderer.color = color;
         }
     }
-
-    private bool touchOptional = false;
-
     public bool TouchOptional
     {
         get => touchOptional;
@@ -35,12 +32,11 @@ public class Note : MonoBehaviour
             renderer.sprite = touchOptional ? optionalNoteSprite : normalNoteSprite;
         }
     }
-
     public bool Played { get; set; }
+    public int MidiKey { get; set; } = 72;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
     }
 
@@ -56,17 +52,19 @@ public class Note : MonoBehaviour
     {
         if (Played) return;
         Played = true;
+
         GameController.Instance.Score.Value++;
         var color = renderer.color;
         color.a = 0.5f;
         renderer.color = color;
-        // TODO: Audio Source
+
+        // TODO: Use Note Model for multiple note sounds
+        GameController.Instance.Pitcher.PlayNote(MidiKey);
     }
 
     private void Miss()
     {
         StartCoroutine(GameController.Instance.EndGame());
-        animator.Play("Missed");
         renderer.color = Color.red;
     }
 

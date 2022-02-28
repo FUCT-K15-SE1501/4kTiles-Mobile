@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public Note notePrefab;
     public float noteSpeed = 5f;
     public GameObject noteTriggerPrefab;
+    public AudioClip sampleClip;
 
     public Transform LastSpawnedNote { get; private set; }
     private GameObject noteContainer;
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour
     public ReactiveProperty<bool> GameStarted { get; set; }
     public ReactiveProperty<bool> GameOver { get; set; }
     public ReactiveProperty<int> Score { get; set; }
+    public Pitcher Pitcher { get; set; }
 
     private void Awake()
     {
@@ -52,6 +54,10 @@ public class GameController : MonoBehaviour
         var outOfScreenTrigger = Instantiate<GameObject>(noteTriggerPrefab);
         outOfScreenTrigger.name = "OutOfScreenTrigger";
         outOfScreenTrigger.AddComponent<OutOfScreenTrigger>();
+
+        var pitchSoundContainer = new GameObject("SoundContainer");
+        Pitcher = pitchSoundContainer.AddComponent<Pitcher>();
+        Pitcher.Clip = sampleClip;
 
         LastSpawnedNote = new GameObject("LastSpawnedNote").transform;
         var worldSpawnLocation = _camera.ScreenToWorldPoint(Vector3.zero);
@@ -170,6 +176,7 @@ public class GameController : MonoBehaviour
                 if (note.Visible)
                 {
                     note.TouchOptional = Random.Range(0, 2) == 1;
+                    note.MidiKey = Random.Range(72, 89);
                 }
             }
             noteSpawnStartPosY += noteHeight;

@@ -169,6 +169,7 @@ MonoBehaviour:
   notePrefab: {fileID: 3744359093143836363, guid: cc5784239cd157a409348feda7deac8b, type: 3}
   noteSpeed: 7
   noteTriggerPrefab: {fileID: 4609419596593426632, guid: 49ae53772e8385e4f95be900e1be6ecc, type: 3}
+  sampleClip: {fileID: 8300000, guid: 954af33ff13858e4c8420c26672a126c, type: 3}
 --- !u!1 &33538913
 GameObject:
   m_ObjectHideFlags: 0
