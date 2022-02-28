@@ -65,6 +65,7 @@ public class Note : MonoBehaviour
     private void Miss()
     {
         StartCoroutine(GameController.Instance.EndGame());
+        GameController.Instance.Pitcher.PlayNote(60);
         renderer.color = Color.red;
     }
 

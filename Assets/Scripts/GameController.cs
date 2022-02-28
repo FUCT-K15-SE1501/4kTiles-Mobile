@@ -16,14 +16,13 @@ public class GameController : MonoBehaviour
     public float noteSpeed = 5f;
     public GameObject noteTriggerPrefab;
     public AudioClip sampleClip;
+    public int notesToSpawn = 5;
 
-    public Transform LastSpawnedNote { get; private set; }
     private GameObject noteContainer;
-    private static float noteHeight;
-    private static float noteWidth;
+    private float noteHeight;
+    private float noteWidth;
     private Vector3 noteLocalScale;
     private float noteSpawnStartPosX;
-    public const int NotesToSpawn = 20;
     private bool lastNote = false;
     private bool lastSpawn = false;
     private Camera _camera;
@@ -33,7 +32,8 @@ public class GameController : MonoBehaviour
     public ReactiveProperty<bool> GameStarted { get; set; }
     public ReactiveProperty<bool> GameOver { get; set; }
     public ReactiveProperty<int> Score { get; set; }
-    public Pitcher Pitcher { get; set; }
+    public Pitcher Pitcher { get; private set; }
+    public Transform LastSpawnedNote { get; private set; }
 
     private void Awake()
     {
@@ -164,7 +164,7 @@ public class GameController : MonoBehaviour
 
         var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
         Note note = null;
-        for (var i = 0; i < NotesToSpawn; i++)
+        for (var i = 0; i < notesToSpawn; i++)
         {
             var randomIndex = Random.Range(0, 4);
             for (var j = 0; j < 4; j++)
@@ -180,7 +180,7 @@ public class GameController : MonoBehaviour
                 }
             }
             noteSpawnStartPosY += noteHeight;
-            if (i == NotesToSpawn - 1) LastSpawnedNote = note.transform;
+            if (i == notesToSpawn - 1) LastSpawnedNote = note.transform;
         }
     }
 
