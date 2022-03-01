@@ -6,8 +6,11 @@ using UnityEngine;
 public class Note : MonoBehaviour
 {
     [SerializeField] private Sprite normalNoteSprite;
+    [SerializeField] private Sprite normalFailNoteSprite;
+    [SerializeField] private Sprite normalPlayNoteSprite;
     [SerializeField] private Sprite optionalNoteSprite;
-    
+    [SerializeField] private Sprite optionalPlayNoteSprite;
+
     private new SpriteRenderer renderer;
     private bool visible;
     private bool touchOptional = false;
@@ -20,6 +23,10 @@ public class Note : MonoBehaviour
             visible = value;
             var color = renderer.color;
             color.a = visible ? 1 : 0;
+            if (!visible)
+            {
+                renderer.sprite = normalFailNoteSprite;
+            }
             renderer.color = color;
         }
     }
@@ -54,9 +61,7 @@ public class Note : MonoBehaviour
         Played = true;
 
         GameController.Instance.Score.Value++;
-        var color = renderer.color;
-        color.a = 0.5f;
-        renderer.color = color;
+        renderer.sprite = TouchOptional ? optionalPlayNoteSprite : normalPlayNoteSprite;
 
         // TODO: Use Note Model for multiple note sounds
         GameController.Instance.Pitcher.PlayNote(MidiKey);
@@ -66,7 +71,8 @@ public class Note : MonoBehaviour
     {
         StartCoroutine(GameController.Instance.EndGame());
         GameController.Instance.Pitcher.PlayNote(60);
-        renderer.color = Color.red;
+        renderer.sprite = normalFailNoteSprite;
+        renderer.color = Color.white;
     }
 
     public void PlayTouch(bool isHold)
