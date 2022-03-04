@@ -81,14 +81,13 @@ public class GameController : MonoBehaviour
 
     private void DetectStart()
     {
-        if (!GameController.Instance.GameStarted.Value && Input.GetMouseButtonDown(0))
-        {
-            GameController.Instance.GameStarted.Value = true;
-        }
+        if (GameController.Instance.GameStarted.Value || !Input.GetMouseButtonDown(0)) return;
+        GameController.Instance.GameStarted.Value = true;
+        StartCoroutine(CheckTouch(new List<Vector2>() { Input.mousePosition }, failIfMiss: false));
     }
 
     // TODO: Check if this is the last note
-    private IEnumerator CheckTouch(IEnumerable<Vector2> touched, bool isHold = false)
+    private IEnumerator CheckTouch(IEnumerable<Vector2> touched, bool isHold = false, bool failIfMiss = true)
     {
         foreach (var touch in touched)
         {
@@ -98,7 +97,7 @@ public class GameController : MonoBehaviour
             var hitGameObject = hit.collider.gameObject;
             if (!hitGameObject.CompareTag("Note")) continue;
             var note = hitGameObject.GetComponent<Note>();
-            note.PlayTouch(isHold);
+            note.PlayTouch(isHold, failIfMiss);
             yield return null;
         }
     }

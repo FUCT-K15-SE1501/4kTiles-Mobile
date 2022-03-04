@@ -21,11 +21,17 @@ public class CanvasElementVisibility : MonoBehaviour
         }
     }
 
-    private void OnValidate()
+#if UNITY_EDITOR
+    private void OnValidate() => UnityEditor.EditorApplication.delayCall += _OnValidate;
+
+    private void _OnValidate()
     {
+        UnityEditor.EditorApplication.delayCall -= _OnValidate;
+        if (this == null) return;
         if (Visible) ShowElement();
         else HideElement();
     }
+#endif
 
     private void ShowElement()
     {

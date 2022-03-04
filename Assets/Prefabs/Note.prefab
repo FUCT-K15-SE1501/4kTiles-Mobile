@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7ed29cd41bc175c4a9694229b3f08c6f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2bf493e118aa09f48839a37d74a7e681, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,10 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09168ba5f969f84eb0d293cd127b8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalNoteSprite: {fileID: 21300000, guid: 7ed29cd41bc175c4a9694229b3f08c6f, type: 3}
+  normalNoteSprite: {fileID: 21300000, guid: 2bf493e118aa09f48839a37d74a7e681, type: 3}
   normalFailNoteSprite: {fileID: 21300000, guid: 891e1981408bcc54c8d69a471772d47c, type: 3}
   normalPlayNoteSprite: {fileID: 21300000, guid: 82079335cb0f91148a3a58b56f537f70, type: 3}
-  optionalNoteSprite: {fileID: 21300000, guid: d1fdf28553083f84896b6efb6f0948b6, type: 3}
+  optionalNoteSprite: {fileID: 21300000, guid: 9dce98456d8e46c4ebfda30fd6b0089e, type: 3}
   optionalPlayNoteSprite: {fileID: 21300000, guid: 9245aaaedab76c5439d14bfeac4b693f, type: 3}
 --- !u!61 &4405412620584746749
 BoxCollider2D:

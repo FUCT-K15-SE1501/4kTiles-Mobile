@@ -75,7 +75,7 @@ public class Note : MonoBehaviour
         renderer.color = Color.white;
     }
 
-    public void PlayTouch(bool isHold)
+    public void PlayTouch(bool isHold, bool failIfMiss)
     {
         if (!GameController.Instance.GameStarted.Value || GameController.Instance.GameOver.Value) return;
         if (TouchOptional)
@@ -85,7 +85,7 @@ public class Note : MonoBehaviour
         else if (!isHold)
         {
             if (Visible) Play();
-            else Miss();
+            else if (failIfMiss) Miss();
         }
     }
 
