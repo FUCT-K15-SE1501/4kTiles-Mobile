@@ -136,12 +136,12 @@ public class GameController : MonoBehaviour
 
         if (touched.Any())
         {
-            StartCoroutine(CheckTouch(touched, false));
+            CheckTouch(touched, false);
         }
 
         if (hold.Any())
         {
-            StartCoroutine(CheckTouch(hold, true));
+            CheckTouch(hold, true);
         }
     }
 
