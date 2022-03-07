@@ -27,14 +27,14 @@ public class Pitcher : MonoBehaviour
         return pitch;
     }
 
-    public void PlayNote(int midiKey, float? volume = null, float? length = null, float delay = 0)
+    public void PlayNote(int midiKey, float? volume = null, float? length = null, float? delay = 0)
     {
         var source = gameObject.AddComponent<AudioSource>();
         source.clip = Clip;
         source.spatialBlend = 0;
         source.volume = volume ?? 1;
         source.pitch = KeyToPitch(midiKey);
-        source.PlayDelayed(delay);
+        source.PlayDelayed(delay ?? 0);
         Destroy(source, length ?? source.clip.length);
     }
 }
