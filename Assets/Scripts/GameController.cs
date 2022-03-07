@@ -89,8 +89,7 @@ public class GameController : MonoBehaviour
         GameController.Instance.GameStarted.Value = true;
         StartCoroutine(CheckTouch(new List<Vector2>() { Input.mousePosition }, failIfMiss: false));
     }
-
-    // TODO: Check if this is the last note
+    
     private IEnumerator CheckTouch(IEnumerable<Vector2> touched, bool isHold = false, bool failIfMiss = true)
     {
         foreach (var touch in touched)
@@ -159,8 +158,7 @@ public class GameController : MonoBehaviour
         var leftmostPointPivot = leftmostPoint.x + noteWidth / 2;
         noteSpawnStartPosX = leftmostPointPivot;
     }
-
-    // TODO: Check if this is the last spawn of notes and assign to lastSpawn
+    
     public void SpawnNotes()
     {
         var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
