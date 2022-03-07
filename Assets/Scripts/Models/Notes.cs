@@ -5,42 +5,30 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    [Serializable]
     public class NoteType
     {
-        private float? _volume;
-
-        public int MidiKey { get; set; }
-        public float Delay { get; set; } = 0;
-        public float? Length { get; set; }
-        public float? Volume 
-        {
-            get => _volume;
-            set 
-            {
-                if (value < 0)
-                    _volume = 0;
-                else if (value > 1)
-                    _volume = 1;
-                else
-                    _volume = value;
-            }
-        }
+        public float volume = 1;
+        public float delay = 0;
+        public int midiKey = 72;
+        public float length = 0;
     }
 
+    [Serializable]
     public class Note
     {
         // relative to current row [0,1,2,3]
-        public int Position { get; set; }
-        // [C,D,E,F,G,A,B] implement pitch
-        public List<NoteType> NoteType { get; set; }
-        public bool TouchOptional { get; set; } = false;
+        public int position;
+        public List<NoteType> noteType = new List<NoteType>();
+        public bool touchOptional = false;
     }
 
+    [Serializable]
     public class Row
     {
         // row index (start from 0)
-        public int Position { get; set; }
-        public List<Note> Notes { get; set; }
+        public int position;
+        public List<Note> notes = new List<Note>();
     }
 
     public static class NoteConverter
@@ -50,12 +38,12 @@ namespace Models
             var dict = new Dictionary<int, Note>();
             foreach (var row in rows)
             {
-                var position = row.Position;
+                var position = row.position;
                 if (position < 0) continue;
 
-                foreach (var rowNote in row.Notes)
+                foreach (var rowNote in row.notes)
                 {
-                    var index = rowNote.Position;
+                    var index = rowNote.position;
                     if (index < 0 || index >= 4) continue;
                     dict[position * 4 + index] = rowNote;
                 }
@@ -67,28 +55,28 @@ namespace Models
         {
             new Row()
             {
-                Position = 0,
-                Notes = new List<Note>()
+                position = 0,
+                notes = new List<Note>()
                 {
                     new Note()
                     {
-                        Position = 0,
-                        NoteType = new List<NoteType>()
+                        position = 0,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 77
+                                midiKey = 77
                             }
                         }
                     },
                     new Note()
                     {
-                        Position = 0,
-                        NoteType = new List<NoteType>()
+                        position = 0,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 78
+                                midiKey = 78
                             }
                         }
                     }
@@ -96,29 +84,29 @@ namespace Models
             },
             new Row()
             {
-                Position = 1,
-                Notes = new List<Note>()
+                position = 1,
+                notes = new List<Note>()
                 {
                     new Note()
                     {
-                        Position = 2,
-                        TouchOptional = true,
-                        NoteType = new List<NoteType>()
+                        position = 2,
+                        touchOptional = true,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 77
+                                midiKey = 77
                             }
                         }
                     },
                     new Note()
                     {
-                        Position = 3,
-                        NoteType = new List<NoteType>()
+                        position = 3,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 82
+                                midiKey = 82
                             }
                         }
                     }
@@ -126,29 +114,29 @@ namespace Models
             },
             new Row()
             {
-                Position = 3,
-                Notes = new List<Note>()
+                position = 3,
+                notes = new List<Note>()
                 {
                     new Note()
                     {
-                        Position = 2,
-                        TouchOptional = true,
-                        NoteType = new List<NoteType>()
+                        position = 2,
+                        touchOptional = true,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 77
+                                midiKey = 77
                             }
                         }
                     },
                     new Note()
                     {
-                        Position = 3,
-                        NoteType = new List<NoteType>()
+                        position = 3,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 82
+                                midiKey = 82
                             }
                         }
                     }
@@ -156,28 +144,28 @@ namespace Models
             },
             new Row()
             {
-                Position = 4,
-                Notes = new List<Note>()
+                position = 4,
+                notes = new List<Note>()
                 {
                     new Note()
                     {
-                        Position = 1,
-                        NoteType = new List<NoteType>()
+                        position = 1,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 77
+                                midiKey = 77
                             }
                         }
                     },
                     new Note()
                     {
-                        Position = 3,
-                        NoteType = new List<NoteType>()
+                        position = 3,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 80
+                                midiKey = 80
                             }
                         }
                     }
@@ -185,30 +173,30 @@ namespace Models
             },
             new Row()
             {
-                Position = 5,
-                Notes = new List<Note>()
+                position = 5,
+                notes = new List<Note>()
                 {
                     new Note()
                     {
-                        Position = 2,
-                        TouchOptional = true,
-                        NoteType = new List<NoteType>()
+                        position = 2,
+                        touchOptional = true,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 75
+                                midiKey = 75
                             }
                         }
                     },
                     new Note()
                     {
-                        Position = 3,
-                        TouchOptional = true,
-                        NoteType = new List<NoteType>()
+                        position = 3,
+                        touchOptional = true,
+                        noteType = new List<NoteType>()
                         {
                             new NoteType()
                             {
-                                MidiKey = 80
+                                midiKey = 80
                             }
                         }
                     }
@@ -216,9 +204,4 @@ namespace Models
             }
         };
     }
-
-    // public class Song
-    // {
-    //     public List<Row> Rows { get; set; }
-    // }
 }

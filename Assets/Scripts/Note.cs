@@ -22,7 +22,7 @@ public class Note : MonoBehaviour
         set
         {
             _noteModel = value;
-            renderer.sprite = _noteModel.TouchOptional ? optionalNoteSprite : normalNoteSprite;
+            renderer.sprite = _noteModel.touchOptional ? optionalNoteSprite : normalNoteSprite;
         }
     }
     public bool Visible
@@ -40,7 +40,7 @@ public class Note : MonoBehaviour
             renderer.color = color;
         }
     }
-    public bool TouchOptional => _noteModel?.TouchOptional ?? false;
+    public bool TouchOptional => _noteModel?.touchOptional ?? false;
     public bool Played { get; set; }
 
     private void Awake()
@@ -72,10 +72,10 @@ public class Note : MonoBehaviour
         GameController.Instance.Score.Value++;
         renderer.sprite = TouchOptional ? optionalPlayNoteSprite : normalPlayNoteSprite;
 
-        if (NoteModel.NoteType == null) return;
-        foreach (var noteType in NoteModel.NoteType)
+        if (NoteModel.noteType == null) return;
+        foreach (var noteType in NoteModel.noteType)
         {
-            GameController.Instance.Pitcher.PlayNote(noteType.MidiKey, noteType.Volume, noteType.Length, noteType.Delay);
+            GameController.Instance.Pitcher.PlayNote(noteType.midiKey, noteType.volume, noteType.length, noteType.delay);
         }
     }
 
