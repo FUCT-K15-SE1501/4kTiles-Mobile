@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     public AudioClip sampleClip;
     public int notesToSpawn = 5;
 
-    private Dictionary<int, Models.Note> noteModelDict = NoteConverter.TestRow.ToDictionary();
+    private Dictionary<int, Models.Note> noteModelDict = NoteConverter.TestSong.ToDictionary();
 
     private Camera _camera;
     private GameObject noteContainer;

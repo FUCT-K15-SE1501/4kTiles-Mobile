@@ -31,12 +31,18 @@ namespace Models
         public List<Note> notes = new List<Note>();
     }
 
+    [Serializable]
+    public class Song
+    {
+        public List<Row> rows = new List<Row>();
+    }
+
     public static class NoteConverter
     {
-        public static Dictionary<int, Note> ToDictionary(this IEnumerable<Row> rows)
+        public static Dictionary<int, Note> ToDictionary(this Song song)
         {
             var dict = new Dictionary<int, Note>();
-            foreach (var row in rows)
+            foreach (var row in song.rows)
             {
                 var position = row.position;
                 if (position < 0) continue;
@@ -51,152 +57,155 @@ namespace Models
             return dict;
         }
 
-        public static List<Row> TestRow { get; } = new List<Row>()
+        public static Song TestSong { get; } = new Song()
         {
-            new Row()
+            rows = new List<Row>()
             {
-                position = 0,
-                notes = new List<Note>()
+                new Row()
                 {
-                    new Note()
+                    position = 0,
+                    notes = new List<Note>()
                     {
-                        position = 0,
-                        noteType = new List<NoteType>()
+                        new Note()
                         {
-                            new NoteType()
+                            position = 0,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 77
+                                new NoteType()
+                                {
+                                    midiKey = 77
+                                }
                             }
-                        }
-                    },
-                    new Note()
-                    {
-                        position = 0,
-                        noteType = new List<NoteType>()
+                        },
+                        new Note()
                         {
-                            new NoteType()
+                            position = 0,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 78
+                                new NoteType()
+                                {
+                                    midiKey = 78
+                                }
                             }
                         }
                     }
-                }
-            },
-            new Row()
-            {
-                position = 1,
-                notes = new List<Note>()
+                },
+                new Row()
                 {
-                    new Note()
+                    position = 1,
+                    notes = new List<Note>()
                     {
-                        position = 2,
-                        touchOptional = true,
-                        noteType = new List<NoteType>()
+                        new Note()
                         {
-                            new NoteType()
+                            position = 2,
+                            touchOptional = true,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 77
+                                new NoteType()
+                                {
+                                    midiKey = 77
+                                }
                             }
-                        }
-                    },
-                    new Note()
-                    {
-                        position = 3,
-                        noteType = new List<NoteType>()
+                        },
+                        new Note()
                         {
-                            new NoteType()
+                            position = 3,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 82
+                                new NoteType()
+                                {
+                                    midiKey = 82
+                                }
                             }
                         }
                     }
-                }
-            },
-            new Row()
-            {
-                position = 3,
-                notes = new List<Note>()
+                },
+                new Row()
                 {
-                    new Note()
+                    position = 3,
+                    notes = new List<Note>()
                     {
-                        position = 2,
-                        touchOptional = true,
-                        noteType = new List<NoteType>()
+                        new Note()
                         {
-                            new NoteType()
+                            position = 2,
+                            touchOptional = true,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 77
+                                new NoteType()
+                                {
+                                    midiKey = 77
+                                }
                             }
-                        }
-                    },
-                    new Note()
-                    {
-                        position = 3,
-                        noteType = new List<NoteType>()
+                        },
+                        new Note()
                         {
-                            new NoteType()
+                            position = 3,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 82
+                                new NoteType()
+                                {
+                                    midiKey = 82
+                                }
                             }
                         }
                     }
-                }
-            },
-            new Row()
-            {
-                position = 4,
-                notes = new List<Note>()
+                },
+                new Row()
                 {
-                    new Note()
+                    position = 4,
+                    notes = new List<Note>()
                     {
-                        position = 1,
-                        noteType = new List<NoteType>()
+                        new Note()
                         {
-                            new NoteType()
+                            position = 1,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 77
+                                new NoteType()
+                                {
+                                    midiKey = 77
+                                }
                             }
-                        }
-                    },
-                    new Note()
-                    {
-                        position = 3,
-                        noteType = new List<NoteType>()
+                        },
+                        new Note()
                         {
-                            new NoteType()
+                            position = 3,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 80
+                                new NoteType()
+                                {
+                                    midiKey = 80
+                                }
                             }
                         }
                     }
-                }
-            },
-            new Row()
-            {
-                position = 5,
-                notes = new List<Note>()
+                },
+                new Row()
                 {
-                    new Note()
+                    position = 5,
+                    notes = new List<Note>()
                     {
-                        position = 2,
-                        touchOptional = true,
-                        noteType = new List<NoteType>()
+                        new Note()
                         {
-                            new NoteType()
+                            position = 2,
+                            touchOptional = true,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 75
+                                new NoteType()
+                                {
+                                    midiKey = 75
+                                }
                             }
-                        }
-                    },
-                    new Note()
-                    {
-                        position = 3,
-                        touchOptional = true,
-                        noteType = new List<NoteType>()
+                        },
+                        new Note()
                         {
-                            new NoteType()
+                            position = 3,
+                            touchOptional = true,
+                            noteType = new List<NoteType>()
                             {
-                                midiKey = 80
+                                new NoteType()
+                                {
+                                    midiKey = 80
+                                }
                             }
                         }
                     }
