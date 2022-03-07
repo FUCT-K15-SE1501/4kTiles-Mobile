@@ -16,12 +16,11 @@ namespace Client
     public class HttpClientRequest
     {
         private readonly string _baseUrl;
-        public Dictionary<string, string> Headers { get; private set; }
+        public Dictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
         public HttpClientRequest(string baseUrl)
         {
             _baseUrl = NormalizeUrl(baseUrl);
-            Headers = new Dictionary<string, string>();
         }
 
         private static string NormalizeUrl(string url)
@@ -43,6 +42,14 @@ namespace Client
         }
 
         private string GetFullPath(string path) => _baseUrl + NormalizePath(path);
+
+        private void AddHeaders(UnityWebRequest www)
+        {
+            foreach (var header in Headers)
+            {
+                www.SetRequestHeader(header.Key, header.Value);
+            }
+        }
 
         public static UnityAction<UnityWebRequest> ConvertToResponseAction<T>(UnityAction<RequestResult<T>> resultAction)
         {
@@ -81,6 +88,7 @@ namespace Client
             }
 
             var www = UnityWebRequest.Get(GetFullPath(path) + (queryString.Length > 0 ? "?" + queryString : ""));
+            AddHeaders(www);
             yield return www.SendWebRequest();
 
             result.Invoke(www);
@@ -90,6 +98,7 @@ namespace Client
         {
             var bytes = Encoding.UTF8.GetBytes(putData);
             var www = UnityWebRequest.Put(GetFullPath(path), bytes);
+            AddHeaders(www);
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();
             
@@ -101,6 +110,7 @@ namespace Client
             var bytes = Encoding.UTF8.GetBytes(postData);
             var uploadHandler = new UploadHandlerRaw(bytes);
             var www = UnityWebRequest.Post(GetFullPath(path), postData);
+            AddHeaders(www);
             www.uploadHandler = uploadHandler;
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();
