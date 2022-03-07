@@ -87,10 +87,10 @@ public class GameController : MonoBehaviour
     {
         if (GameController.Instance.GameStarted.Value || !Input.GetMouseButtonDown(0)) return;
         GameController.Instance.GameStarted.Value = true;
-        StartCoroutine(CheckTouch(new List<Vector2>() { Input.mousePosition }, failIfMiss: false));
+        CheckTouch(new List<Vector2>() { Input.mousePosition }, failIfMiss: false);
     }
     
-    private IEnumerator CheckTouch(IEnumerable<Vector2> touched, bool isHold = false, bool failIfMiss = true)
+    private void CheckTouch(IEnumerable<Vector2> touched, bool isHold = false, bool failIfMiss = true)
     {
         foreach (var touch in touched)
         {
@@ -98,11 +98,16 @@ public class GameController : MonoBehaviour
             var hit = Physics2D.Raycast(origin, Vector2.zero);
             if (!hit) continue;
             var hitGameObject = hit.collider.gameObject;
-            if (!hitGameObject.CompareTag("Note")) continue;
-            var note = hitGameObject.GetComponent<Note>();
-            note.PlayTouch(isHold, failIfMiss);
-            yield return null;
+            StartCoroutine(TouchNote(hitGameObject, isHold, failIfMiss));
         }
+    }
+
+    private static IEnumerator TouchNote(GameObject hitGameObject, bool isHold = false, bool failIfMiss = true)
+    {
+        if (!hitGameObject.CompareTag("Note")) yield break;
+        var note = hitGameObject.GetComponent<Note>();
+        note.PlayTouch(isHold, failIfMiss);
+        yield return null;
     }
 
     private void DetectNoteClicks()
