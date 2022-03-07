@@ -12,35 +12,36 @@ public class Note : MonoBehaviour
     [SerializeField] private Sprite optionalPlayNoteSprite;
 
     private new SpriteRenderer renderer;
-    private bool visible;
-    private bool touchOptional = false;
+    private bool _visible;
+    private Models.Note _noteModel;
 
-    public bool Visible
+    public int Id { get; set; }
+    public Models.Note NoteModel
     {
-        get => visible;
+        get => _noteModel;
         set
         {
-            visible = value;
+            _noteModel = value;
+            renderer.sprite = _noteModel.TouchOptional ? optionalNoteSprite : normalNoteSprite;
+        }
+    }
+    public bool Visible
+    {
+        get => _visible;
+        set
+        {
+            _visible = value;
             var color = renderer.color;
-            color.a = visible ? 1 : 0;
-            if (!visible)
+            color.a = _visible ? 1 : 0;
+            if (!_visible)
             {
                 renderer.sprite = normalFailNoteSprite;
             }
             renderer.color = color;
         }
     }
-    public bool TouchOptional
-    {
-        get => touchOptional;
-        set
-        {
-            touchOptional = value;
-            renderer.sprite = touchOptional ? optionalNoteSprite : normalNoteSprite;
-        }
-    }
+    public bool TouchOptional => _noteModel?.TouchOptional ?? false;
     public bool Played { get; set; }
-    public int MidiKey { get; set; } = 72;
 
     private void Awake()
     {
@@ -55,6 +56,14 @@ public class Note : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if ((!Played && !TouchOptional) || GameController.Instance.MaxNoteId != Id) return;
+        GameController.Instance.PlayerWon = true;
+        GameController.Instance.GameOver.Value = true;
+        GameController.Instance.ShowGameOverScreen.Value = true;
+    }
+
     private void Play()
     {
         if (Played) return;
@@ -63,8 +72,11 @@ public class Note : MonoBehaviour
         GameController.Instance.Score.Value++;
         renderer.sprite = TouchOptional ? optionalPlayNoteSprite : normalPlayNoteSprite;
 
-        // TODO: Use Note Model for multiple note sounds
-        GameController.Instance.Pitcher.PlayNote(MidiKey);
+        if (NoteModel.NoteType == null) return;
+        foreach (var noteType in NoteModel.NoteType)
+        {
+            GameController.Instance.Pitcher.PlayNote(noteType.MidiKey, noteType.Volume, noteType.Length, noteType.Delay);
+        }
     }
 
     private void Miss()

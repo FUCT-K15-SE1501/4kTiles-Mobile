@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Models;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,17 +18,21 @@ public class GameController : MonoBehaviour
     public AudioClip sampleClip;
     public int notesToSpawn = 5;
 
+    private Dictionary<int, Models.Note> noteModelDict = NoteConverter.TestRow.ToDictionary();
+
+    private Camera _camera;
     private GameObject noteContainer;
     private float noteHeight;
     private float noteWidth;
     private Vector3 noteLocalScale;
     private float noteSpawnStartPosX;
-    private bool lastNote = false;
-    private bool lastSpawn = false;
-    private Camera _camera;
 
+    private bool lastSpawn = false;
+    private int lastNoteId = -1;
+
+    public int MaxNoteId { get; private set; }
     public ReactiveProperty<bool> ShowGameOverScreen { get; set; }
-    public bool PlayerWon { get; set; } = false;
+    public bool PlayerWon { get; set; }
     public ReactiveProperty<bool> GameStarted { get; set; }
     public ReactiveProperty<bool> GameOver { get; set; }
     public ReactiveProperty<int> Score { get; set; }
@@ -35,6 +41,8 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        MaxNoteId = Mathf.Max(noteModelDict.Keys.ToArray());
+
         Instance = this;
         GameStarted = new ReactiveProperty<bool>();
         GameOver = new ReactiveProperty<bool>();
@@ -157,23 +165,27 @@ public class GameController : MonoBehaviour
     // TODO: Check if this is the last spawn of notes and assign to lastSpawn
     public void SpawnNotes()
     {
-        if (lastSpawn) return;
-
         var noteSpawnStartPosY = LastSpawnedNote.position.y + noteHeight;
         Note note = null;
         for (var i = 0; i < notesToSpawn; i++)
         {
-            var randomIndex = Random.Range(0, 4);
+            if (lastSpawn) break;
             for (var j = 0; j < 4; j++)
             {
+                var index = ++lastNoteId;
                 note = Instantiate(notePrefab, noteContainer.transform);
+                note.Id = index;
                 note.transform.localScale = noteLocalScale;
                 note.transform.position = new Vector2(noteSpawnStartPosX + noteWidth * j, noteSpawnStartPosY);
-                note.Visible = j == randomIndex;
+                note.Visible = noteModelDict.ContainsKey(index);
                 if (note.Visible)
                 {
-                    note.TouchOptional = Random.Range(0, 2) == 1;
-                    note.MidiKey = Random.Range(72, 89);
+                    note.NoteModel = noteModelDict[index];
+                }
+
+                if (lastNoteId == MaxNoteId)
+                {
+                    lastSpawn = true;
                 }
             }
             noteSpawnStartPosY += noteHeight;

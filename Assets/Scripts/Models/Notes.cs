@@ -29,7 +29,7 @@ namespace Models
 
     public class Note
     {
-        // relative to current row [1,2,3,4]
+        // relative to current row [0,1,2,3]
         public int Position { get; set; }
         // [C,D,E,F,G,A,B] implement pitch
         public List<NoteType> NoteType { get; set; }
@@ -38,9 +38,183 @@ namespace Models
 
     public class Row
     {
-        // row index
+        // row index (start from 0)
         public int Position { get; set; }
         public List<Note> Notes { get; set; }
+    }
+
+    public static class NoteConverter
+    {
+        public static Dictionary<int, Note> ToDictionary(this IEnumerable<Row> rows)
+        {
+            var dict = new Dictionary<int, Note>();
+            foreach (var row in rows)
+            {
+                var position = row.Position;
+                if (position < 0) continue;
+
+                foreach (var rowNote in row.Notes)
+                {
+                    var index = rowNote.Position;
+                    if (index < 0 || index >= 4) continue;
+                    dict[position * 4 + index] = rowNote;
+                }
+            }
+            return dict;
+        }
+
+        public static List<Row> TestRow { get; } = new List<Row>()
+        {
+            new Row()
+            {
+                Position = 0,
+                Notes = new List<Note>()
+                {
+                    new Note()
+                    {
+                        Position = 0,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 77
+                            }
+                        }
+                    },
+                    new Note()
+                    {
+                        Position = 0,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 78
+                            }
+                        }
+                    }
+                }
+            },
+            new Row()
+            {
+                Position = 1,
+                Notes = new List<Note>()
+                {
+                    new Note()
+                    {
+                        Position = 2,
+                        TouchOptional = true,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 77
+                            }
+                        }
+                    },
+                    new Note()
+                    {
+                        Position = 3,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 82
+                            }
+                        }
+                    }
+                }
+            },
+            new Row()
+            {
+                Position = 3,
+                Notes = new List<Note>()
+                {
+                    new Note()
+                    {
+                        Position = 2,
+                        TouchOptional = true,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 77
+                            }
+                        }
+                    },
+                    new Note()
+                    {
+                        Position = 3,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 82
+                            }
+                        }
+                    }
+                }
+            },
+            new Row()
+            {
+                Position = 4,
+                Notes = new List<Note>()
+                {
+                    new Note()
+                    {
+                        Position = 1,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 77
+                            }
+                        }
+                    },
+                    new Note()
+                    {
+                        Position = 3,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 80
+                            }
+                        }
+                    }
+                }
+            },
+            new Row()
+            {
+                Position = 5,
+                Notes = new List<Note>()
+                {
+                    new Note()
+                    {
+                        Position = 2,
+                        TouchOptional = true,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 75
+                            }
+                        }
+                    },
+                    new Note()
+                    {
+                        Position = 3,
+                        TouchOptional = true,
+                        NoteType = new List<NoteType>()
+                        {
+                            new NoteType()
+                            {
+                                MidiKey = 80
+                            }
+                        }
+                    }
+                }
+            }
+        };
     }
 
     // public class Song
