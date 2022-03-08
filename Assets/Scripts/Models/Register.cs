@@ -8,7 +8,7 @@ namespace Models
 {
     [Serializable]
     public class Register
-    {
+    {        
         public string userName;
         public string password;
         public string email;
@@ -17,6 +17,7 @@ namespace Models
     [Serializable]
     public class RegisterResponse
     {
+        public int errorCode;
         public string data;
     }
 }

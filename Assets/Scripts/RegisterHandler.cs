@@ -76,6 +76,16 @@ public class RegisterHandler : MonoBehaviour
             StartCoroutine(
             ClientConstants.API.Post("Account/RegisterUser", postData, HttpClientRequest.ConvertToResponseAction<RegisterResponse>(result =>
             {
+                if (result.Result.errorCode == -1990)
+                {
+                    ErrorText.text = "Email or Password does not exist!";
+                    return;
+                }
+                if (result.Result.errorCode == 1)
+                {
+                    ErrorText.text = "Email is Existed!";
+                    return;
+                }
                 if (!result.IsSuccess)
                 {
                     ErrorText.text = "Create Register failed!";
