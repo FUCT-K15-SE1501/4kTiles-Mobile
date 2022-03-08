@@ -8,13 +8,14 @@ namespace Models
 {
     [Serializable]
     public class Login
-    {
+    {        
         public string password;
         public string email;
     }
     [Serializable]
     public class LoginResponse
     {
+        public int errorCode;
         public string data;
     }
 }
