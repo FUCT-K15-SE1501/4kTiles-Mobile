@@ -55,20 +55,20 @@ namespace Client
         {
             return delegate(UnityWebRequest webRequest)
             {
-                var result = new RequestResult<T>();
-
-                if (webRequest.result == UnityWebRequest.Result.Success)
+                var result = new RequestResult<T>
                 {
-                    result.StatusCode = webRequest.responseCode;
-                    result.IsSuccess = true;
+                    StatusCode = webRequest.responseCode,
+                    IsSuccess = webRequest.result == UnityWebRequest.Result.Success,
+                    RawData = webRequest.downloadHandler.text
+                };
+                try
+                {
                     result.Result = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
                 }
-                else
+                catch
                 {
-                    result.StatusCode = webRequest.responseCode;
-                    result.IsSuccess = false;
+                    // EMPTY
                 }
-
                 resultAction.Invoke(result);
             };
         } 
@@ -122,6 +122,7 @@ namespace Client
     public class RequestResult<T>
     {
         public T Result { get; set; } = default;
+        public string RawData { get; set; } = string.Empty;
         public bool IsSuccess { get; set; } = false;
         public long StatusCode { get; set; }
     }
