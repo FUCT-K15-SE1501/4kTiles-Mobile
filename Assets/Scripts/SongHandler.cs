@@ -31,7 +31,12 @@ public class SongHandler : MonoBehaviour
             {
                 ErrorText.text = "No Error!";
                 return;
-            }            
+            }
+            if (!result.IsSuccess)
+            {
+                ErrorText.text = "Load Failed!";
+                return;
+            }
             Debug.Log(result.Result.data);
         }))
         );
