@@ -64,10 +64,11 @@ namespace Client
                 try
                 {
                     result.Result = JsonUtility.FromJson<T>(webRequest.downloadHandler.text);
+                    result.IsParseSuccess = true;
                 }
                 catch
                 {
-                    // EMPTY
+                    result.IsParseSuccess = false;
                 }
                 resultAction.Invoke(result);
             };
@@ -122,6 +123,7 @@ namespace Client
     public class RequestResult<T>
     {
         public T Result { get; set; } = default;
+        public bool IsParseSuccess { get; set; } = false;
         public string RawData { get; set; } = string.Empty;
         public bool IsSuccess { get; set; } = false;
         public long StatusCode { get; set; }
