@@ -1218,7 +1218,6 @@ GameObject:
   - component: {fileID: 1224196379}
   - component: {fileID: 1224196378}
   - component: {fileID: 1224196377}
-  - component: {fileID: 1224196380}
   - component: {fileID: 1224196381}
   m_Layer: 0
   m_Name: Canvas
@@ -1314,22 +1313,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1224196380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224196375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d974a1b26af56d442b0913895fee3fa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InputFieldName: {fileID: 0}
-  InputFieldEmail: {fileID: 820653854}
-  InputFieldPass: {fileID: 598711673}
-  InputFieldCPass: {fileID: 0}
 --- !u!114 &1224196381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,7 +1616,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2035361704}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196381}
+        m_TargetAssemblyTypeName: LoginHandler, Assembly-CSharp
+        m_MethodName: Submit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2035361704
 MonoBehaviour:
   m_ObjectHideFlags: 0
