@@ -17,6 +17,11 @@ public class SongHandler : MonoBehaviour
         StartCoroutine(
         ClientConstants.API.Get("Library", HttpClientRequest.ConvertToResponseAction<SongResponse>(result =>
         {
+            if (!result.IsParseSuccess)
+            {
+                ErrorText.text = "Load Failed!";
+                return;
+            }
             if (result.Result.errorCode == -1990)
             {
                 ErrorText.text = "Song does not exist!";
@@ -25,11 +30,6 @@ public class SongHandler : MonoBehaviour
             if (result.Result.errorCode == 0)
             {
                 ErrorText.text = "No Error!";
-                return;
-            }
-            if (!result.IsSuccess)
-            {
-                ErrorText.text = "Load Failed!";
                 return;
             }
             Debug.Log(result.Result.data);
