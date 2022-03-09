@@ -47,7 +47,7 @@ public class LoginHandler : MonoBehaviour
         StartCoroutine(
         ClientConstants.API.Post("Account/Login", postData, HttpClientRequest.ConvertToResponseAction<LoginResponse>(result =>
         {
-            if(result.Result.errorCode == -1990)
+            if (result.Result.errorCode == -1990)
             {
                 ErrorText.text = "Email or Password does not exist!";
                 return;
@@ -70,8 +70,6 @@ public class LoginHandler : MonoBehaviour
             Debug.Log(result.Result.data);
 
             ClientConstants.API.Headers.Add("Authorization", $"Bearer {result.Result.data}");
-        }))
-        );
-
+        })));
     }
 }
