@@ -21,9 +21,15 @@ namespace Models
         public List<string> genres;
     }
     [Serializable]
-    public class SongResponse
+    public class SongListResponse
     {
         public int errorCode;
         public List<SongInfo> data;
+    }
+    [Serializable]
+    public class SongResponse
+    {
+        public int errorCode;
+        public SongInfo data;
     }
 }

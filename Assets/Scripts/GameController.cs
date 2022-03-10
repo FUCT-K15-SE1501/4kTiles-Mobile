@@ -16,7 +16,9 @@ public class GameController : MonoBehaviour
     public AudioClip sampleClip;
     public int notesToSpawn = 5;
 
-    private Dictionary<int, Models.Note> noteModelDict = NoteConverter.TestSong.ToDictionary();
+    private Dictionary<int, Models.Note> noteModelDict;
+    private bool loadSuccess = false;
+    private bool spawnStarted = false;
 
     private Camera _camera;
     private GameObject noteContainer;
@@ -39,7 +41,18 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        MaxNoteId = Mathf.Max(noteModelDict.Keys.ToArray());
+        if (SongLoader.CurrentSong == null)
+        {
+            SongLoader.CurrentSongId = 1;
+            StartCoroutine(SongLoader.LoadSong(success =>
+            {
+                loadSuccess = success;
+            }));
+        }
+        else
+        {
+            loadSuccess = true;
+        }
 
         Instance = this;
         GameStarted = new ReactiveProperty<bool>();
@@ -74,13 +87,23 @@ public class GameController : MonoBehaviour
     void Start()
     {
         SetDataForNoteGeneration();
-        SpawnNotes();
     }
 
     private void Update()
     {
-        DetectNoteClicks();
-        DetectStart();
+        if (!loadSuccess) return;
+        if (spawnStarted)
+        {
+            DetectNoteClicks();
+            DetectStart();
+        }
+        else
+        {
+            noteModelDict = SongLoader.CurrentSong.ToDictionary();
+            MaxNoteId = Mathf.Max(noteModelDict.Keys.ToArray());
+            spawnStarted = true;
+            SpawnNotes();
+        }
     }
 
     private void DetectStart()
@@ -204,5 +227,10 @@ public class GameController : MonoBehaviour
         GameOver.Value = true;
         yield return new WaitForSeconds(1);
         ShowGameOverScreen.Value = true;
+    }
+
+    public void OnBackButton()
+    {
+        SongLoader.CurrentSong = null;
     }
 }

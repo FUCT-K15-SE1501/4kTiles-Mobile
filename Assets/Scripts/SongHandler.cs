@@ -15,7 +15,7 @@ public class SongHandler : MonoBehaviour
     public void Load()
     {
         StartCoroutine(
-        ClientConstants.API.Get("Library", HttpClientRequest.ConvertToResponseAction<SongResponse>(result =>
+        ClientConstants.API.Get("Library", HttpClientRequest.ConvertToResponseAction<SongListResponse>(result =>
         {
             if (!result.IsParseSuccess)
             {
