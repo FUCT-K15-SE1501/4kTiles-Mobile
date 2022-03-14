@@ -3,6 +3,7 @@ using Models;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RegisterHandler : MonoBehaviour
@@ -59,7 +60,7 @@ public class RegisterHandler : MonoBehaviour
     }
 
     public void Submit()
-    {
+    {        
         if (password != confirmPassword)
         {
             ErrorText.text = "Confirm Password does not match!";
@@ -90,10 +91,15 @@ public class RegisterHandler : MonoBehaviour
                 {
                     ErrorText.text = "Email is Existed!";
                     return;
-                }                
-                Debug.Log(result.Result.data);
+                }
+                SceneManager.LoadScene("Login");
             }))
             );
         }
+    }
+    // Load Login Scene
+    public void Login()
+    {
+        SceneManager.LoadScene("Login");
     }
 }
