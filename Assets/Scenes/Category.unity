@@ -317,7 +317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -149.99979, y: 150}
+  m_AnchoredPosition: {x: -149.99976, y: 150}
   m_SizeDelta: {x: 1.349976, y: 2.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &286752681
@@ -2322,6 +2322,7 @@ GameObject:
   - component: {fileID: 1224196379}
   - component: {fileID: 1224196378}
   - component: {fileID: 1224196377}
+  - component: {fileID: 1224196380}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -2424,6 +2425,34 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1224196380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224196375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95c2f00a9e8e50e42a244ae5a7ce54f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songBar1: {fileID: 1862826367}
+  songName1: {fileID: 1336094849}
+  leaderBoard1: {fileID: 2142191138}
+  playButton1: {fileID: 513981001}
+  songBar2: {fileID: 2055338335}
+  songName2: {fileID: 1929610016}
+  leaderBoard2: {fileID: 1350673140}
+  playButton2: {fileID: 363298718}
+  songBar3: {fileID: 917914216}
+  songName3: {fileID: 499645868}
+  leaderBoard3: {fileID: 1767468157}
+  playButton3: {fileID: 2145630896}
+  songBar4: {fileID: 1271308377}
+  songName4: {fileID: 1549375722}
+  leaderBoard4: {fileID: 1110039578}
+  playButton4: {fileID: 406894987}
 --- !u!1 &1250157120
 GameObject:
   m_ObjectHideFlags: 0
