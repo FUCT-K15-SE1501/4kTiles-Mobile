@@ -30,7 +30,7 @@ public class SongHandler : MonoBehaviour
     public Button leaderBoard4;
     public Button playButton4;
 
-    public void Load()
+    public void Awake()
     {
         StartCoroutine(
         ClientConstants.API.Get("Library", HttpClientRequest.ConvertToResponseAction<SongListResponse>(result =>
