@@ -8,8 +8,20 @@ using UnityEngine;
 
 public static class SongLoader
 {
-    public static int CurrentSongId { get; set; } = 0;
-    [CanBeNull] public static Song CurrentSong { get; set; }
+    private static int _currentSongId = 1;
+
+    public static int CurrentSongId
+    {
+        get => _currentSongId;
+        set
+        {
+            CurrentSong = null;
+            _currentSongId = value;
+        }
+    }
+
+    public static float CurrentNoteSpeed { get; set; } = 5;
+    [CanBeNull] public static Song CurrentSong { get; private set; }
 
     public static IEnumerator LoadSong(Action<bool> onResult)
     {
@@ -25,6 +37,7 @@ public static class SongLoader
                     try
                     {
                         var song = JsonUtility.FromJson<Song>(result.Result.data.notes);
+                        CurrentNoteSpeed = result.Result.data.bpm / 60f;
                         CurrentSong = song;
                         onResult.Invoke(true);
                     }

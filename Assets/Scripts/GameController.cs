@@ -44,10 +44,13 @@ public class GameController : MonoBehaviour
     {
         if (SongLoader.CurrentSong == null)
         {
-            SongLoader.CurrentSongId = 11;
             StartCoroutine(SongLoader.LoadSong(success =>
             {
                 loadSuccess = success;
+                if (!success)
+                {
+                    SceneManager.LoadScene("Category");
+                }
             }));
         }
         else
@@ -102,6 +105,7 @@ public class GameController : MonoBehaviour
         {
             noteModelDict = SongLoader.CurrentSong.ToDictionary();
             MaxNoteId = Mathf.Max(noteModelDict.Keys.ToArray());
+            noteSpeed = SongLoader.CurrentNoteSpeed;
             spawnStarted = true;
             SpawnNotes();
         }
@@ -236,6 +240,6 @@ public class GameController : MonoBehaviour
 
     public void OnBackButton()
     {
-        SongLoader.CurrentSong = null;
+        SceneManager.LoadScene("Category");
     }
 }
