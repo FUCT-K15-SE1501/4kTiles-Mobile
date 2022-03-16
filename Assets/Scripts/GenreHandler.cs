@@ -11,7 +11,7 @@ public class GenreHandler : MonoBehaviour
     [SerializeField]
     Button[] GenreBtn;
 
-    void Awake()
+    private void Awake()
     {
         StartCoroutine(
             ClientConstants.API.Get("Library/Genre", HttpClientRequest.ConvertToResponseAction<Genres>(result =>
@@ -21,7 +21,7 @@ public class GenreHandler : MonoBehaviour
                     return;
                 }
                 var genres = result.Result.data;
-                for (int i = 0; i < GenreBtn.Length; i++)
+                for (var i = 0; i < GenreBtn.Length; i++)
                 {
                     var btn = GenreBtn[i];
                     if (i >= genres.Count)
@@ -35,7 +35,9 @@ public class GenreHandler : MonoBehaviour
                         btn.GetComponentInChildren<Text>().text = genre;
                         btn.onClick.AddListener(() =>
                         {
-                            Debug.Log(genre);
+                            SongHandler.RequestPath = "Library/genre/song";
+                            SongHandler.Parameters = new Dictionary<string, string> {{"Name", genre}};
+                            SceneManager.LoadScene("Category");
                         });
                     }
                 }
@@ -43,8 +45,21 @@ public class GenreHandler : MonoBehaviour
             );
     }
 
-    public void BackButton()
+    public void GoToCategory()
     {
+        SceneManager.LoadScene("Category");
+    }
+
+    public void GoToProfile()
+    {
+        SceneManager.LoadScene("User");
+    }
+
+    public void SearchByName()
+    {
+        var name = ""; // Get from the search bar
+        SongHandler.RequestPath = "Library/search";
+        SongHandler.Parameters = new Dictionary<string, string> { { "searchString", name } };
         SceneManager.LoadScene("Category");
     }
 }

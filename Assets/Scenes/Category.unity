@@ -363,7 +363,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 286752682}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: GoToProfile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &286752682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,7 +616,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 393734790}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: PrevPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &393734790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1126,7 +1150,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 543841268}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: GoToDefault
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &543841268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1441,7 +1477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &917914217
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1980,7 +2016,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1111667668}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: GoToMusicCategory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1111667668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2271,7 +2319,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1200489927}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: NextPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1200489927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2535,7 +2595,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1250157123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: SongHandler, Assembly-CSharp
+        m_MethodName: SetDefaultValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1250157123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2591,7 +2663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1271308378
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3192,7 +3264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1862826368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3352,7 +3424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2055338336
 RectTransform:
   m_ObjectHideFlags: 0
