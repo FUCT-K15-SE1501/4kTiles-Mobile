@@ -3,10 +3,14 @@ using Models;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LeaderboardHandler : MonoBehaviour
 {
+    public Text SongName;
+    public Button PlayButton;
+
     public GameObject Top1Object;
     public GameObject Top2Object;
     public GameObject Top3Object;
@@ -18,10 +22,27 @@ public class LeaderboardHandler : MonoBehaviour
     public Text Top1Value;
     public Text Top2Value;
     public Text Top3Value;
-    public int SongId { get; set; } = 0;
+    public static int SongId { get; set; } = 1;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(SongLoader.LoadSong(SongId, (success, response) =>
+        {
+            if (!success)
+            {
+                SceneManager.LoadScene("Category");
+            }
+            else
+            {
+                SongName.text = response.data.songName;
+                PlayButton.onClick.RemoveAllListeners();
+                PlayButton.onClick.AddListener(() =>
+                {
+                    SongLoader.CurrentSongId = SongId;
+                    SceneManager.LoadScene("Play");
+                });
+            }
+        }));
         StartCoroutine(
              ClientConstants.API.Get($"Leaderboard/Song/{SongId}",
              HttpClientRequest.ConvertToResponseAction<LeaderboardResponse>(
@@ -70,5 +91,10 @@ public class LeaderboardHandler : MonoBehaviour
                )
              )
         );
+    }
+
+    public void BackButton()
+    {
+        SceneManager.LoadScene("Category");
     }
 }

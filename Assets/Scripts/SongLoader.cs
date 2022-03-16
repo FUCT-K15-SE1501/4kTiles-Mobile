@@ -23,6 +23,14 @@ public static class SongLoader
     public static float CurrentNoteSpeed { get; set; } = 5;
     [CanBeNull] public static Song CurrentSong { get; private set; }
 
+    public static IEnumerator LoadSong(int id, Action<bool, SongResponse> onResult)
+    {
+        return ClientConstants.API.Get($"Song/{id}", HttpClientRequest.ConvertToResponseAction<SongResponse>(
+                result => onResult.Invoke(result.IsParseSuccess, result.Result)
+            )
+        );
+    }
+
     public static IEnumerator LoadSong(Action<bool> onResult)
     {
         return ClientConstants.API.Get($"Song/{CurrentSongId}", HttpClientRequest.ConvertToResponseAction<SongResponse>(
