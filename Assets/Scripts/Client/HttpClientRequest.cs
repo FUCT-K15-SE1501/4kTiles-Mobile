@@ -95,6 +95,27 @@ namespace Client
             result.Invoke(www);
         }
 
+        public IEnumerator GetTexture(string path, UnityAction<UnityWebRequest> result, Dictionary<string, string> query = null)
+        {
+            var queryString = string.Empty;
+            if (query != null)
+            {
+                foreach (var keyValuePair in query)
+                {
+                    if (queryString.Length > 0)
+                        queryString += "&";
+
+                    queryString += keyValuePair.Key + "=" + UnityWebRequest.EscapeURL(keyValuePair.Value);
+                }
+            }
+
+            var www = UnityWebRequestTexture.GetTexture(GetFullPath(path) + (queryString.Length > 0 ? "?" + queryString : ""));
+            AddHeaders(www);
+            yield return www.SendWebRequest();
+
+            result.Invoke(www);
+        }
+
         public IEnumerator Put(string path, string putData, UnityAction<UnityWebRequest> result)
         {
             var bytes = Encoding.UTF8.GetBytes(putData);
