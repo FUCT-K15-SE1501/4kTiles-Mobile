@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Client;
 using Models;
 using UniRx;
 using UnityEngine;
@@ -227,6 +228,10 @@ public class GameController : MonoBehaviour
         GameOver.Value = true;
         yield return new WaitForSeconds(1);
         ShowGameOverScreen.Value = true;
+        StartCoroutine(
+            ClientConstants.API.Put($"Leaderboard/User?songId={SongLoader.CurrentSongId}&score={Score.Value}", "{}", r => { })
+            );
+
     }
 
     public void OnBackButton()

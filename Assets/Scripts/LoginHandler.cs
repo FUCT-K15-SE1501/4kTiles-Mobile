@@ -3,6 +3,7 @@ using Models;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoginHandler : MonoBehaviour
@@ -34,7 +35,7 @@ public class LoginHandler : MonoBehaviour
             });
         }
     }
-
+    // Success and load Login Scene
     public void Submit()
     {
         var login = new Login()
@@ -66,10 +67,14 @@ public class LoginHandler : MonoBehaviour
             {
                 ErrorText.text = "Login Failed!";
                 return;
-            }            
-            Debug.Log(result.Result.data);
-
+            }
             ClientConstants.API.Headers.Add("Authorization", $"Bearer {result.Result.data}");
+            SceneManager.LoadScene("Category");            
         })));
+    }
+    // Load SignUp Scene
+    public void SignUp()
+    {
+        SceneManager.LoadScene("SignUp");
     }
 }
