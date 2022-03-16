@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
     {
         if (SongLoader.CurrentSong == null)
         {
-            SongLoader.CurrentSongId = 1;
+            SongLoader.CurrentSongId = 11;
             StartCoroutine(SongLoader.LoadSong(success =>
             {
                 loadSuccess = success;
