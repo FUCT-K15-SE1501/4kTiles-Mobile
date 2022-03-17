@@ -36,8 +36,8 @@ namespace Client
                 return "";
             if (path.StartsWith("/"))
                 path = path.Substring(1);
-            //if (!path.EndsWith("/"))
-            //    path += "/";
+            if (path.EndsWith("/"))
+                path = path.Substring(0, path.Length - 1);
             return path;
         }
 
