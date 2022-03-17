@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Client;
 using Assets.Scripts.Models;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class ProfileHandler : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class ProfileHandler : MonoBehaviour
         StartCoroutine(
             ClientConstants.API.Get("account/account", HttpClientRequest.ConvertToResponseAction<ProfileResponse>(result =>
             {
-                if (!result.IsParseSuccess)
+                if (!result.IsSuccess)
                 {
                     userName.text = "Guest";
                     return;
@@ -36,6 +37,14 @@ public class ProfileHandler : MonoBehaviour
             })
             ));
     }
+    public void GoToMusicCategory()
+    {
+        SceneManager.LoadScene("MusicCategory");
+    }
 
+    public void GoToHome()
+    {
+        SceneManager.LoadScene("Category");
+    }
 
 }
