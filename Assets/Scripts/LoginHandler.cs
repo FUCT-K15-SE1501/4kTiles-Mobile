@@ -55,7 +55,7 @@ public class LoginHandler : MonoBehaviour
             }
             if (result.Result.errorCode == -1990)
             {
-                ErrorText.text = "Email or Password does not exist!";
+                ErrorText.text = "Invalid Email or Password!";
                 return;
             }
             if (result.Result.errorCode == -1)
