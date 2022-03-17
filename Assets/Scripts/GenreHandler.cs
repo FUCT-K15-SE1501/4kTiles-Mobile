@@ -10,6 +10,8 @@ public class GenreHandler : MonoBehaviour
 {
     [SerializeField]
     Button[] GenreBtn;
+    [SerializeField]
+    InputField SearchField;
 
     private void Awake()
     {
@@ -57,7 +59,7 @@ public class GenreHandler : MonoBehaviour
 
     public void SearchByName()
     {
-        var name = ""; // Get from the search bar
+        var name = SearchField.text;
         SongHandler.RequestPath = "Library/search";
         SongHandler.Parameters = new Dictionary<string, string> { { "searchString", name } };
         SceneManager.LoadScene("Category");

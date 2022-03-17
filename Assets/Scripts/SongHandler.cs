@@ -30,21 +30,25 @@ public class SongHandler : MonoBehaviour
     //Song Bar 1
     public GameObject songBar1;
     public Text songName1;
+    public Text authorName1;
     public Button leaderBoard1;
     public Button playButton1;
     //Song Bar 2
     public GameObject songBar2;
     public Text songName2;
+    public Text authorName2;
     public Button leaderBoard2;
     public Button playButton2;
     //Song Bar 3
     public GameObject songBar3;
     public Text songName3;
+    public Text authorName3;
     public Button leaderBoard3;
     public Button playButton3;
     //Song Bar 4
     public GameObject songBar4;
     public Text songName4;
+    public Text authorName4;
     public Button leaderBoard4;
     public Button playButton4;
 
@@ -87,6 +91,8 @@ public class SongHandler : MonoBehaviour
                     songBar1.SetActive(true);
 
                     songName1.text = songInfo.songName;
+                    authorName1.text = $"{songInfo.author} | {songInfo.bpm} BPM";
+
                     playButton1.onClick.RemoveAllListeners();
                     playButton1.onClick.AddListener(() =>
                     {
@@ -112,6 +118,8 @@ public class SongHandler : MonoBehaviour
                     songBar2.SetActive(true);
 
                     songName2.text = songInfo.songName;
+                    authorName2.text = $"{songInfo.author} | {songInfo.bpm} BPM";
+
                     playButton2.onClick.RemoveAllListeners();
                     playButton2.onClick.AddListener(() =>
                     {
@@ -137,6 +145,8 @@ public class SongHandler : MonoBehaviour
                     songBar3.SetActive(true);
 
                     songName3.text = songInfo.songName;
+                    authorName3.text = $"{songInfo.author} | {songInfo.bpm} BPM";
+
                     playButton3.onClick.RemoveAllListeners();
                     playButton3.onClick.AddListener(() =>
                     {
@@ -162,6 +172,8 @@ public class SongHandler : MonoBehaviour
                     songBar4.SetActive(true);
 
                     songName4.text = songInfo.songName;
+                    authorName4.text =$"{songInfo.author} | {songInfo.bpm} BPM";
+
                     playButton4.onClick.RemoveAllListeners();
                     playButton4.onClick.AddListener(() =>
                     {
