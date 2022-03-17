@@ -86,6 +86,7 @@ public class GameController : MonoBehaviour
         worldSpawnLocation.y += 1f;
         worldSpawnLocation.z = 0;
         LastSpawnedNote.position = worldSpawnLocation;
+        ShowGameOverScreen.Subscribe(_ => UploadBestScore());
     }
 
     void Start()
@@ -232,10 +233,13 @@ public class GameController : MonoBehaviour
         GameOver.Value = true;
         yield return new WaitForSeconds(1);
         ShowGameOverScreen.Value = true;
+    }
+
+    public void UploadBestScore()
+    {
         StartCoroutine(
             ClientConstants.API.Put($"Leaderboard/User?songId={SongLoader.CurrentSongId}&score={Score.Value}", "{}", r => { })
-            );
-
+        );
     }
 
     public void OnBackButton()

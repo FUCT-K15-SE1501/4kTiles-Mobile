@@ -61,7 +61,7 @@ public class LeaderboardHandler : MonoBehaviour
                      {
                          Top1Object.SetActive(true);
                          Top1Name.text = list[0].userName;
-                         Top1Value.text = list[0].bestScore.ToString();
+                         Top1Value.text = list[0].bestScore.ToString() + "pt";
                      }
                      else
                      {
@@ -71,7 +71,7 @@ public class LeaderboardHandler : MonoBehaviour
                      {
                          Top2Object.SetActive(true);
                          Top2Name.text = list[1].userName;
-                         Top2Value.text = list[1].bestScore.ToString();
+                         Top2Value.text = list[1].bestScore.ToString() + "pt";
                      }
                      else
                      {
@@ -81,7 +81,7 @@ public class LeaderboardHandler : MonoBehaviour
                      {
                          Top3Object.SetActive(true);
                          Top3Name.text = list[2].userName;
-                         Top3Value.text = list[2].bestScore.ToString();
+                         Top3Value.text = list[2].bestScore.ToString() + "pt";
                      }
                      else
                      {
