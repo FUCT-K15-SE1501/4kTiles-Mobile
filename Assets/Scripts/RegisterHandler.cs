@@ -24,6 +24,8 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField]
     Text ErrorText;
 
+    private bool _pending = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,12 +63,16 @@ public class RegisterHandler : MonoBehaviour
 
     public void Submit()
     {        
+        if (_pending) return;
+
         if (password != confirmPassword)
         {
             ErrorText.text = "Confirm Password does not match!";
         }
         else
         {
+            _pending = true;
+
             var register = new Register()
             {
                 email = email,
@@ -77,6 +83,7 @@ public class RegisterHandler : MonoBehaviour
             StartCoroutine(
             ClientConstants.API.Post("Account/RegisterUser", postData, HttpClientRequest.ConvertToResponseAction<RegisterResponse>(result =>
             {
+                _pending = false;
                 if (!result.IsParseSuccess)
                 {
                     ErrorText.text = "Create Register failed!";

@@ -18,6 +18,8 @@ public class LoginHandler : MonoBehaviour
     [SerializeField]
     Text ErrorText;
 
+    private bool _pending = false;
+
     void Start()
     {
         if (InputFieldEmail != null)
@@ -38,6 +40,9 @@ public class LoginHandler : MonoBehaviour
     // Success and load Login Scene
     public void Submit()
     {
+        if (_pending) return;
+        _pending = true;
+
         var login = new Login()
         {
             email = email,
@@ -48,6 +53,7 @@ public class LoginHandler : MonoBehaviour
         StartCoroutine(
         ClientConstants.API.Post("Account/Login", postData, HttpClientRequest.ConvertToResponseAction<LoginResponse>(result =>
         {
+            _pending = false;
             if (!result.IsParseSuccess)
             {
                 ErrorText.text = "Login failed!";
