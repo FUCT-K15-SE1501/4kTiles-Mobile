@@ -52,9 +52,22 @@ public class SongHandler : MonoBehaviour
     public Button leaderBoard4;
     public Button playButton4;
 
+    public Slider noteBeatsSlider;
+
     public void Awake()
     {
         Load();
+    }
+
+    private void Start()
+    {
+        noteBeatsSlider.value = SongLoader.NotesPerBeat;
+        noteBeatsSlider.onValueChanged.RemoveAllListeners();
+        noteBeatsSlider.onValueChanged.AddListener(value =>
+        {
+            var intValue = Mathf.FloorToInt(value);
+            SongLoader.NotesPerBeat = intValue;
+        });
     }
 
     private void Load()

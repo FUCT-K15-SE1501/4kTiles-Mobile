@@ -8,7 +8,7 @@ using UnityEngine;
 
 public static class SongLoader
 {
-    static float speedMulti = 1.2f;
+    public static int NotesPerBeat { get; set; } = 1;
 
     private static int _currentSongId = 1;
 
@@ -47,7 +47,7 @@ public static class SongLoader
                     try
                     {
                         var song = JsonUtility.FromJson<Song>(result.Result.data.notes);
-                        CurrentNoteSpeed = result.Result.data.bpm / 60f * speedMulti;
+                        CurrentNoteSpeed = (NotesPerBeat * result.Result.data.bpm) / 60f;
                         CurrentSong = song;
                         onResult.Invoke(true);
                     }
