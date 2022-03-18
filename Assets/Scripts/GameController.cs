@@ -91,6 +91,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        //fps
+        QualitySettings.vSyncCount = 1;
         SetDataForNoteGeneration();
     }
 
@@ -246,4 +248,5 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene("Category");
     }
+    
 }
