@@ -245,10 +245,4 @@ public class SongHandler : MonoBehaviour
     {
         SceneManager.LoadScene("User");
     }
-
-    public void GoToDefault()
-    {
-        ClientConstants.API.Headers.Remove("Authorization");
-        SceneManager.LoadScene("Defaults");
-    }
 }

@@ -47,4 +47,9 @@ public class ProfileHandler : MonoBehaviour
         SceneManager.LoadScene("Category");
     }
 
+    public void GoToDefault()
+    {
+        ClientConstants.API.Headers.Remove("Authorization");
+        SceneManager.LoadScene("Defaults");
+    }
 }
