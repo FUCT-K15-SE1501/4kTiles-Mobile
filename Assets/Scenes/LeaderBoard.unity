@@ -644,7 +644,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 242488152}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: LeaderboardHandler, Assembly-CSharp
+        m_MethodName: GoToCategory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &242488152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,7 +856,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 534919199}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: LeaderboardHandler, Assembly-CSharp
+        m_MethodName: GoToProfile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &534919199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,7 +1071,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1224196380}
         m_TargetAssemblyTypeName: LeaderboardHandler, Assembly-CSharp
-        m_MethodName: BackButton
+        m_MethodName: GoToCategory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2940,7 +2964,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1956945031}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1224196380}
+        m_TargetAssemblyTypeName: LeaderboardHandler, Assembly-CSharp
+        m_MethodName: GoToMusicCategory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1956945031
 MonoBehaviour:
   m_ObjectHideFlags: 0

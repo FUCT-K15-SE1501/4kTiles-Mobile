@@ -93,8 +93,18 @@ public class LeaderboardHandler : MonoBehaviour
         );
     }
 
-    public void BackButton()
+    public void GoToCategory()
     {
         SceneManager.LoadScene("Category");
+    }
+
+    public void GoToMusicCategory()
+    {
+        SceneManager.LoadScene("MusicCategory");
+    }
+
+    public void GoToProfile()
+    {
+        SceneManager.LoadScene("User");
     }
 }
