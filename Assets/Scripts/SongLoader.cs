@@ -8,7 +8,7 @@ using UnityEngine;
 
 public static class SongLoader
 {
-    public static int NotesPerBeat { get; set; } = 1;
+    public static float NotesPerBeat { get; set; } = 1;
 
     private static int _currentSongId = 1;
 

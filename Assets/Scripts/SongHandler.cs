@@ -63,11 +63,7 @@ public class SongHandler : MonoBehaviour
     {
         noteBeatsSlider.value = SongLoader.NotesPerBeat;
         noteBeatsSlider.onValueChanged.RemoveAllListeners();
-        noteBeatsSlider.onValueChanged.AddListener(value =>
-        {
-            var intValue = Mathf.FloorToInt(value);
-            SongLoader.NotesPerBeat = intValue;
-        });
+        noteBeatsSlider.onValueChanged.AddListener(value => SongLoader.NotesPerBeat = value);
     }
 
     private void Load()
