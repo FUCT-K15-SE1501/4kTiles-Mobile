@@ -30,10 +30,10 @@ public class Pitcher : MonoBehaviour
     public void PlayNote(int midiKey, float volume = 1, float length = 0, float delay = 0)
     {
         var source = gameObject.AddComponent<AudioSource>();
-        source.clip = Clip;
         source.spatialBlend = 0;
-        source.volume = Mathf.Min(1, Mathf.Max(0, volume));
+        source.volume = Mathf.Max(0, Mathf.Min(1, volume));
         source.pitch = KeyToPitch(midiKey);
+        source.clip = Clip;
         source.PlayDelayed(Mathf.Max(0, delay));
         Destroy(source, delay + (length == 0 ? 2.5f : Math.Max(0, length)));
     }
