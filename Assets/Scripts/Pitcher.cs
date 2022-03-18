@@ -35,6 +35,6 @@ public class Pitcher : MonoBehaviour
         source.volume = Mathf.Min(1, Mathf.Max(0, volume));
         source.pitch = KeyToPitch(midiKey);
         source.PlayDelayed(Mathf.Max(0, delay));
-        Destroy(source, length == 0 ? source.clip.length : Math.Max(0, length));
+        Destroy(source, delay + (length == 0 ? 2.5f : Math.Max(0, length)));
     }
 }
