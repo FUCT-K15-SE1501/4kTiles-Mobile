@@ -1,9 +1,8 @@
 name: 4kTiles Mobile CI
 on:
-  pull_request:
+  push:
     branches:
       - master
-  workflow_dispatch:
 jobs:
   build:
     name: Build my project ✨
@@ -39,8 +38,8 @@ jobs:
             allowDirtyBuild: true
           
         # Output
-        # - name: Upload results
-        #   uses: actions/upload-artifact@v2
-        #   with:
-        #     name: Build-${{ matrix.targetPlatform }}
-        #     path: build/${{ matrix.targetPlatform }}
+        - name: Upload results
+          uses: actions/upload-artifact@v2
+          with:
+            name: Build-${{ matrix.targetPlatform }}
+            path: build/${{ matrix.targetPlatform }}
