@@ -6,11 +6,13 @@ using Models;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
 
+    public Text tapToStartText;
     public Note notePrefab;
     public float noteSpeed = 5f;
     public GameObject noteTriggerPrefab;
@@ -20,7 +22,7 @@ public class GameController : MonoBehaviour
     private Dictionary<int, Models.Note> noteModelDict;
     private bool loadSuccess = false;
     private bool spawnStarted = false;
-
+    
     private Camera _camera;
     private GameObject noteContainer;
     private float noteHeight;
@@ -44,18 +46,27 @@ public class GameController : MonoBehaviour
     {
         if (SongLoader.CurrentSong == null)
         {
+            tapToStartText.text = "LOADING";
             StartCoroutine(SongLoader.LoadSong(success =>
             {
                 loadSuccess = success;
                 if (!success)
                 {
                     SceneManager.LoadScene("Category");
+                    tapToStartText.text = "FAILED TO LOAD";
+                    GameOver.Value = true;
+                    ShowGameOverScreen.Value = true;
+                }
+                else
+                {
+                    tapToStartText.text = "TAP TO START";
                 }
             }));
         }
         else
         {
             loadSuccess = true;
+            tapToStartText.text = "TAP TO START";
         }
 
         Instance = this;
@@ -83,7 +94,7 @@ public class GameController : MonoBehaviour
         LastSpawnedNote = new GameObject("LastSpawnedNote").transform;
         var worldSpawnLocation = _camera.ScreenToWorldPoint(Vector3.zero);
         worldSpawnLocation.x = 0;
-        worldSpawnLocation.y += 1f;
+        worldSpawnLocation.y += 2.5f;
         worldSpawnLocation.z = 0;
         LastSpawnedNote.position = worldSpawnLocation;
         ShowGameOverScreen.Subscribe(_ => UploadBestScore());
@@ -102,7 +113,6 @@ public class GameController : MonoBehaviour
         if (spawnStarted)
         {
             DetectNoteClicks();
-            DetectStart();
         }
         else
         {
@@ -114,13 +124,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void DetectStart()
-    {
-        if (GameController.Instance.GameStarted.Value || !Input.GetMouseButtonDown(0)) return;
-        GameController.Instance.GameStarted.Value = true;
-        CheckTouch(new List<Vector2>() { Input.mousePosition }, failIfMiss: false);
-    }
-    
     private void CheckTouch(IEnumerable<Vector2> touched, bool isHold = false, bool failIfMiss = true)
     {
         foreach (var touch in touched)
@@ -165,14 +168,21 @@ public class GameController : MonoBehaviour
             touched.Add(Input.mousePosition);
         }
 
+        var failIfMiss = true;
+        if ((touched.Any() || hold.Any()) && !GameController.Instance.GameStarted.Value)
+        {
+            GameController.Instance.GameStarted.Value = true;
+            failIfMiss = false;
+        }
+
         if (touched.Any())
         {
-            CheckTouch(touched, false);
+            CheckTouch(touched, false, failIfMiss);
         }
 
         if (hold.Any())
         {
-            CheckTouch(hold, true);
+            CheckTouch(hold, true, failIfMiss);
         }
     }
 
