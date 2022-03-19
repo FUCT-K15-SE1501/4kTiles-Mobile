@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
 
     public static bool BlackBackground { get; set; } = false;
+    public static bool AutoPlay { get; set; } = false;
 
     public Text tapToStartText;
     public Note notePrefab;
@@ -92,6 +93,12 @@ public class GameController : MonoBehaviour
         var outOfScreenTrigger = Instantiate<GameObject>(noteTriggerPrefab);
         outOfScreenTrigger.name = "OutOfScreenTrigger";
         outOfScreenTrigger.AddComponent<OutOfScreenTrigger>();
+        if (AutoPlay)
+        {
+            var autoPlayTrigger = Instantiate<GameObject>(noteTriggerPrefab);
+            autoPlayTrigger.name = "AutoPlayTrigger";
+            autoPlayTrigger.AddComponent<AutoPlayTrigger>();
+        }
 
         var pitchSoundContainer = new GameObject("SoundContainer");
         Pitcher = pitchSoundContainer.AddComponent<Pitcher>();
@@ -181,6 +188,8 @@ public class GameController : MonoBehaviour
             failIfMiss = false;
         }
 
+        if (AutoPlay) return;
+
         if (touched.Any())
         {
             CheckTouch(touched, false, failIfMiss);
@@ -255,9 +264,13 @@ public class GameController : MonoBehaviour
 
     public void UploadBestScore()
     {
-        StartCoroutine(
-            ClientConstants.API.Put($"Leaderboard/User?songId={SongLoader.CurrentSongId}&score={Score.Value}", "{}", r => { })
-        );
+        if (!AutoPlay)
+        {
+            StartCoroutine(
+                ClientConstants.API.Put($"Leaderboard/User?songId={SongLoader.CurrentSongId}&score={Score.Value}", "{}",
+                    r => { })
+            );
+        }
     }
 
     public void OnBackButton()
