@@ -14,6 +14,8 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField]
     RawImage userAvatar;
 
+    [SerializeField] private Toggle blackBackgroundToggle;
+
     private void Awake()
     {
         StartCoroutine(
@@ -36,6 +38,8 @@ public class ProfileHandler : MonoBehaviour
                     );
             })
             ));
+        blackBackgroundToggle.isOn = GameController.BlackBackground;
+        blackBackgroundToggle.onValueChanged.AddListener(toggle => GameController.BlackBackground = toggle);
     }
     public void GoToMusicCategory()
     {

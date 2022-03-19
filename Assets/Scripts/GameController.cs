@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
 
+    public static bool BlackBackground { get; set; } = false;
+
     public Text tapToStartText;
     public Note notePrefab;
     public float noteSpeed = 5f;
@@ -76,6 +78,10 @@ public class GameController : MonoBehaviour
         ShowGameOverScreen = new ReactiveProperty<bool>();
         noteContainer = new GameObject("NoteContainer");
         _camera = Camera.main!;
+        if (BlackBackground)
+        {
+            _camera.backgroundColor = Color.black;
+        }
 
         var destroyNoteTrigger = Instantiate<GameObject>(noteTriggerPrefab);
         destroyNoteTrigger.name = "DestroyNoteTrigger";
