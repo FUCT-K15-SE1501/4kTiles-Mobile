@@ -16,6 +16,7 @@ public class ProfileHandler : MonoBehaviour
 
     [SerializeField] private Toggle blackBackgroundToggle;
     [SerializeField] private Toggle autoPlayToggle;
+    [SerializeField] private Slider touchOffsetSlider;
 
     private void Awake()
     {
@@ -43,6 +44,8 @@ public class ProfileHandler : MonoBehaviour
         blackBackgroundToggle.onValueChanged.AddListener(toggle => GameController.BlackBackground = toggle);
         autoPlayToggle.isOn = GameController.AutoPlay;
         autoPlayToggle.onValueChanged.AddListener(toggle => GameController.AutoPlay = toggle);
+        touchOffsetSlider.value = GameController.TouchOffset;
+        touchOffsetSlider.onValueChanged.AddListener(value => GameController.TouchOffset = value);
     }
     public void GoToMusicCategory()
     {

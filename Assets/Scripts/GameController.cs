@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
 
     public static bool BlackBackground { get; set; } = false;
     public static bool AutoPlay { get; set; } = false;
+    public static float TouchOffset { get; set; } = 0f;
 
     public Text tapToStartText;
     public Note notePrefab;
@@ -142,6 +143,7 @@ public class GameController : MonoBehaviour
         foreach (var touch in touched)
         {
             var origin = _camera.ScreenToWorldPoint(touch);
+            origin.y += TouchOffset;
             var hit = Physics2D.Raycast(origin, Vector2.zero);
             if (!hit) continue;
             var hitGameObject = hit.collider.gameObject;
