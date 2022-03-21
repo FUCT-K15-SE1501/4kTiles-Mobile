@@ -1,4 +1,4 @@
-name: 4kTiles Mobile CI
+name: 4kTiles Mobile CD
 on:
   push:
     branches:
